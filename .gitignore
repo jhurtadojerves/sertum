@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+#Ignorar archivos de pycharm
+.idea
+
+#Ignorar archivos de configuración local
+local_settings.py
