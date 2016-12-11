@@ -14,6 +14,19 @@ class Center(models.Model):
     addres = map_fields.AddressField(max_length=200)
     geolocation = map_fields.GeoLocationField(max_length=100)
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
+    service = models.ManyToManyField(Service, through='CenterService')
 
     def __str__(self):
         return self.name
+
+class CenterService(models.Model):
+    center = models.ForeignKey(Center)
+    service = models.ForeignKey(Service)
+    cost = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
+    observation = models.TextField(blank=False)
+
+    class Meta:
+        unique_together = ('center', 'service',)
+
+    def __str__(self):
+        return self.center.name

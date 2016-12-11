@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ center.name }}
+{% endblock title %}
+
+{% block content %}
+    <p>{{ center.name }}</p>
+    <p>{{ center.addres }}</p>
+    <p>{{ center.geolocation }}</p>
+
+    <div id="map" style="height: 60%; width: 60%;"></div>
+    <script type="text/javascript">
+
+    var map;
+    function initMap() {
+        var centro = {lat: {{ center.geolocation.lat }}, lng: {{ center.geolocation.lon }}};
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: centro ,
+            zoom: 15
+        });
+        var marker = new google.maps.Marker({map: map, position: centro});
+            marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+    }
+
+    </script>
+
+
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSlaE2htDqFC-acT2vS_nXdlFClj12KU8&callback=initMap">
+    </script>
+
+
+{% endblock %}
