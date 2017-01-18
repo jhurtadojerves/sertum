@@ -14,7 +14,7 @@ class CenterServiceInline(admin.TabularInline):
 
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
-    list_display = ['id', 'name', 'slug', ]
+    list_display = ['id', 'name', 'slug', 'user' ]
     formfield_overrides = {
         AddressField: {'widget': GoogleMapsAddressWidget},
     }

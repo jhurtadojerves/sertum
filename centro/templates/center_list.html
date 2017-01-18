@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Centros Turísticos de Morona
+{% endblock title %}
+
+{% block content_title %}
+    Agregados Recientemente
+{% endblock %}
+
+
+{% block content %}
+        {% for center in centers %}
+                <div class="col-md-4 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="features">
+              <div class="icon">
+                <i class="mdi-action-done-all"></i>
+              </div>
+              <div class="features-text">
+                <h4><a href="{% url 'Center:center_detail' center.slug %}">{{ center.name }}</a> </h4>
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+                </p>
+              </div>
+             </div>
+          </div>
+        {% endfor %}
+{% endblock %}
+
+

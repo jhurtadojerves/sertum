@@ -5,11 +5,37 @@
 {% endblock title %}
 
 {% block content %}
-    <p>{{ center.name }}</p>
-    <p>{{ center.addres }}</p>
-    <p>{{ center.geolocation }}</p>
 
-    <div id="map" style="height: 60%; width: 60%;"></div>
+    <div class="col-md-12 col-sm-12 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="features">
+              <div class="icon">
+                <i class="mdi-action-done-all"></i>
+              </div>
+              <div class="features-text">
+                <h4>{{ center.name }} <a href="{% url 'Center:center_edit' center.slug %}" class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">✎</a></h4>
+                <p>
+                  {{ center.aditional_information|linebreaksbr }}
+                </p>
+                  <p>{{ center.user }}</p>
+              </div>
+            </div>
+
+
+
+
+
+{% endblock %}
+{% block map%}
+    <div class="row" style="height: 700px !important; width: auto; margin: auto auto;">
+
+    <div id="map" class="row" style="height: 85%; width: 60%;"></div>
+    </div>
+
+    </div>
+
+
+
+
     <script type="text/javascript">
 
     var map;
@@ -26,11 +52,7 @@
     }
 
     </script>
-
-
-    <script async defer
+<script async defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSlaE2htDqFC-acT2vS_nXdlFClj12KU8&callback=initMap">
     </script>
-
-
-{% endblock %}
+  {% endblock %}
