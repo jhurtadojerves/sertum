@@ -16,7 +16,14 @@
                 <p>
                   {{ center.aditional_information|linebreaksbr }}
                 </p>
-                  <p>{{ center.user }}</p>
+              <div id="images">
+                  {% for picture in pictures %}
+                      <a href="{% url 'Center:ver_imagen' picture.picture %}" target="_blank"><img src="{% url 'Center:ver_imagen' picture.picture %}" alt="" style="width: 50px;"></a>
+                  {% endfor %}
+              </div>
+                  
+                  
+                  
               </div>
             </div>
 
@@ -28,7 +35,7 @@
 {% block map%}
     <div class="row" style="height: 700px !important; width: auto; margin: auto auto;">
 
-    <div id="map" class="row" style="height: 85%; width: 60%;"></div>
+<div id="map" class="row" style="height: 85%; width: 60%;"></div>
     </div>
 
     </div>

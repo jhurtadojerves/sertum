@@ -39,3 +39,8 @@ class CenterService(models.Model):
 
     def __str__(self):
         return self.center.name
+
+
+class Picture(models.Model):
+    picture = models.ImageField()
+    center = models.ForeignKey(Center)
