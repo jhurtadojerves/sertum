@@ -11,6 +11,6 @@ class ServiceInline(ModelForm):
 class CenterCreateForm(ModelForm):
     class Meta:
         model = Center
-        fields = ['name', 'addres', 'geolocation',]
+        fields = ['name', 'addres', 'geolocation', 'user']
 
 ServiceFormset = inlineformset_factory(Center, CenterService, fields = ('center', 'service', 'cost', 'observation'), extra=3, can_delete=False, can_order=True)

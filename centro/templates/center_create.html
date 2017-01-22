@@ -5,28 +5,41 @@
 {% endblock title %}
 
 {% block content %}
-    <div class="mui-container-fluid">
+
+<div class="mui-container-fluid">
     <form class="mui-form" action="" method="post"> {% csrf_token %}
       <legend>Crear Centro Turístico</legend>
       <div class="mui-textfield mui-textfield--float-label">
-        <textarea cols="40" id="id_name" name="name" rows="10" required=""></textarea>
+          {{ form.name.errors }}
+        <textarea cols="40" id="id_name" name="name" rows="10" required="">
+{{ form.name.value }}
+
+        </textarea>
         <label>Nombre del Centro Turístico</label>
       </div>
 
 
        <div class="mui-textfield mui-textfield--float-label">
-        <input id="id_addres" maxlength="200" name="addres" type="text" required="">
-        <label>Dirección (Coordenadas)</label>
+           {{ form.addres.errors }}
+        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{{ form.addres.value }}">
+        <label>Dirección (Coordenadas) Ejemplo: -2.304061, -78.116023</label>
       </div>
 
 
       <div class="mui-textfield mui-textfield--float-label">
-
-          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="">
-        <label>Geolocalización (Coordenadas)</label>
+{{ form.geolocation.errors }}
+          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="" value="{{ form.geolocation.value }}">
+        <label>Geolocalización (Coordenadas) Ejemplo: -2.304061, -78.116023 </label>
       </div>
+        <div class="mui-textfield mui-textfield--float-label" style="display: block !important;">
+        {{ form.user.errors }}
+            <select id="id_user" name="user" required="">
+            <option value="{{ request.user.id }}">{{ request.user.get_full_name }}</option>
+        </select>
+        </div>
       <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
     </form>
     </div>
 
 {% endblock %}
+

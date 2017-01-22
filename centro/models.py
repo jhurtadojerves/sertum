@@ -20,7 +20,7 @@ class Center(models.Model):
     geolocation = map_fields.GeoLocationField(max_length=100)
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
     service = models.ManyToManyField(Service, through='CenterService')
-    user = models.OneToOneField(User, null=True)
+    user = models.OneToOneField(User, unique=True, null=True)
 
     def __str__(self):
         return self.name

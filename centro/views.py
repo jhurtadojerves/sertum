@@ -7,6 +7,8 @@ from usuario.models import User as Usuario
 from .form import CenterCreateForm, ServiceFormset
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
+from django.contrib.auth.decorators import permission_required
+from django.utils.decorators import method_decorator
 
 
 # Create your views here.
@@ -28,11 +30,15 @@ class CenterCreateView(CreateView):
     form_class = CenterCreateForm
     context_object_name = 'center'
 
-    def post(self, request, *args, **kwargs):
-        usuario = Usuario.objects.get(id = request.user.id)
-        self.model.user = usuario
-        temp = self.form_class(request.POST).save()
-        return HttpResponseRedirect(reverse('Center:center_detail', args=[str(temp.slug)]))
+    @method_decorator(permission_required('usuario.add_center'))
+    def dispatch(self, *args, **kwargs):
+        return super(CenterCreateView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CenterCreateView, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        return context
+
 
 class CenterUpdateView(UpdateView):
     model = Center

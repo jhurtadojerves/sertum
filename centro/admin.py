@@ -16,7 +16,7 @@ class PictureInline(admin.TabularInline):
 
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
-    list_display = ['id', 'name', 'slug', 'user' ]
+    list_display = ['id', 'name', 'slug', 'user', 'addres', ]
     formfield_overrides = {
         AddressField: {'widget': GoogleMapsAddressWidget},
     }
@@ -24,6 +24,8 @@ class AdminCenter(admin.ModelAdmin):
         CenterServiceInline,
         PictureInline,
     ]
+
+    list_editable = ['user',]
 
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
