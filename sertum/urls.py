@@ -24,7 +24,8 @@ from centro import urls
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('centro.urls')),
-url(r'^static/(?P<path>.*)$', serve, {
+    url(r'^', include('servicio.urls')),
+    url(r'^static/(?P<path>.*)$', serve, {
         'document_root': settings.STATIC_ROOT
     }),
 

@@ -1,0 +1,253 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+  <head>  	
+  	<meta charset="utf-8">
+    <meta name="description" content="Responsive Bootstrap Landing Page Template">
+    <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" content="Grayrids">
+		<title>{% block title %}
+		
+		{% endblock %}</title>
+
+    <link href="{% static 'css/bootstrap.min.css'%}" rel="stylesheet">
+    <link href="//cdn.muicss.com/mui-0.9.9-rc1/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.9.9-rc1/js/mui.js"></script>
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css'%}" type="text/css" media="screen">
+    <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
+    <link href="{% static 'css/material.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/ripples.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-invers menu-wrap">
+      <div class="navbar-header text-center">
+        <a class="navbar-brand logo-right" href="javascript:void(0)"><i class="mdi-image-timelapse"></i>SERTUM</a>
+      </div>
+        <ul class="nav navbar-nav main-navigation">
+          <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
+          <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
+        </ul>
+        <button class="close-button" id="close-button">Cerrar Menu</button>
+    </div>
+  	
+  	<div class="content-wrap">
+     <header class="hero-area" id="home">
+      
+      <div class="container">
+          <div class="col-md-12">
+
+            <div class="navbar navbar-inverse sticky-navigation navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="200">
+              <div class="container">
+                <div class="navbar-header">
+                  <a class="logo-left " href="{% url 'Center:home' %}"><i class="mdi-image-timelapse"></i>SERTUM</a>
+                </div>
+                <div class="navbar-right">
+                  <button class="menu-icon"  id="open-button">
+                    <i class="mdi-navigation-menu"></i>
+                  </button>             
+                </div>
+              </div>
+            </div>
+        </div>        
+        <div class="contents text-right">
+          <h1 class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">Recomendación Turísticas del Cantón Morona</h1>
+          <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">Material Design Inspired HTML5 Bootstrap Template for Business and App</p>
+
+        </div>   
+    </header>
+
+    <section id="features" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h1 class="section-title wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">{% block content_title %}
+          
+          {% endblock %}</h1>
+          <h2 class="section-subtitle wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">{% block content_description %}
+          
+          {% endblock %}</h2>
+        </div>
+        <div class="row">
+
+          {% block content %}
+          
+          {% endblock %}
+
+        </div>
+
+
+           {% block map %}
+
+           {% endblock %}
+
+
+      </div>
+
+    </section>
+
+
+    <section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <h2 class="section-title">That's Where We Are</h2>
+            <div class="row">
+              <div class="col-md-6 col-sm-6">
+                <div class="info">
+                  <div class="icon">
+                    <i class="mdi-maps-map"></i>
+                  </div>
+                  <h4>Ubicación</h4>
+                  <p>Macas, Morona Santiago, Ecuador</p>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <div class="info">
+                  <div class="icon">
+                    <i class="mdi-content-mail"></i>
+                  </div>
+                  <h4>Email</h4>
+                  <p>mes@juliohurtado.me</p>
+                </div>
+              </div>
+              <div class="clear"></div>
+              <div class="col-md-6 col-sm-6">
+                <div class="info">
+                  <div class="icon">
+                    <i class="mdi-action-settings-phone"></i>
+                  </div>
+                  <h4>Teléfono</h4>
+                  <p>+59997217282</p>
+                </div>
+              </div>
+              <div class="col-md-6 col-sm-6">
+                <div class="info">
+                  <div class="icon">
+                    <i class="mdi-action-thumb-up"></i>
+                  </div>
+                  <h4>Redes Socailes</h4>
+                  <p>@jhurtadojerves</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="footer">
+      <div class="container">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <h3>Products</h3>
+              <ul>
+                <li><a href="http://wingthemes.com/">WingThemes</a>
+                </li>
+                <li><a href="http://graygrids.com/">Graygrids</a>
+                </li>
+                <li><a href="http://wpbean.com/">WPBean</a>
+                </li>
+                <li><a href="http://landingbow.com/">Landingbow</a>
+                </li>
+                <li><a href="http://freebiescircle.com/">FreebiesCicle</a>
+                </li>               
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <h3>FAQs</h3>
+              <ul>
+                <li><a href="#">Why choose us?</a>
+                </li>
+                <li><a href="#">Where we are?</a>
+                </li>
+                <li><a href="#">Fees</a>
+                </li>
+                <li><a href="#">Guarantee</a>
+                </li>
+                <li><a href="#">Discount</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <h3>About</h3>
+              <ul>
+                <li><a href="#">Career</a>
+                </li>
+                <li><a href="#">Partners</a>
+                </li>
+                <li><a href="#">Team</a>
+                </li>
+                <li><a href="#">Clients</a>
+                </li>
+                <li><a href="#">Contact</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <h3>Find us on</h3>
+              <a class="social" href="#" target="_blank"><i class="fa fa-facebook"></i></a>
+              <a class="social" href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a class="social" href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
+            </div>
+          </div>
+        </div>  
+      </div>      
+      <!-- Go to Top Link -->
+      <a href="#home" class="btn btn-primary back-to-top">
+      <i class=" mdi-hardware-keyboard-arrow-up"></i>
+      </a>
+    </section> 
+
+    <section id="copyright">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <p class="copyright-text">
+             © Pluto 2015 Frontend right reserved.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>     
+    </div>  
+		
+
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/ripples.min.js' %}"></script>
+    <script src="{% static 'js/material.min.js' %}"></script>
+    <script src="{% static 'js/wow.js' %}"></script>
+    <script src="{% static 'js/jquery.mmenu.min.all.js' %}"></script>
+    <script src="{% static 'js/count-to.js' %}"></script>
+    <script src="{% static 'js/jquery.inview.min.js' %}"></script>
+    <script src="{% static 'js/classie.js' %}"></script>
+    <script src="{% static 'js/jquery.nav.js' %}"></script>
+    <script src="{% static 'js/smooth-on-scroll.js' %}"></script>
+    <script src="{% static 'js/smooth-scroll.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+
+
+
+  
+  {% block map_script %}
+  
+  {% endblock %}
+    <script>
+        $(document).ready(function() {
+            // This command is used to initialize some elements and make them work properly
+            $.material.init();
+        });
+    </script>
+  </body>
+
+</html>

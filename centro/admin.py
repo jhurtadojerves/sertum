@@ -1,5 +1,6 @@
 from django.contrib import admin
-from centro.models import Center, CenterService, Service, Picture
+from centro.models import Center, Picture
+from servicio.models import Service
 from django.forms.widgets import TextInput
 
 # Register your models here.
@@ -7,12 +8,12 @@ from django.forms.widgets import TextInput
 from django_google_maps.widgets import GoogleMapsAddressWidget
 from django_google_maps.fields import AddressField, GeoLocationField
 
-class CenterServiceInline(admin.TabularInline):
-    model = CenterService
-    raw_id_fields = ('service',)
-    extra = 1
+
 class PictureInline(admin.TabularInline):
     model = Picture
+
+class ServiceInline(admin.TabularInline):
+    model = Service
 
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
@@ -21,8 +22,8 @@ class AdminCenter(admin.ModelAdmin):
         AddressField: {'widget': GoogleMapsAddressWidget},
     }
     inlines =[
-        CenterServiceInline,
         PictureInline,
+        ServiceInline,
     ]
 
     list_editable = ['user',]

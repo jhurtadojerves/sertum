@@ -7,28 +7,48 @@
 {% block content %}
 
 <div class="mui-container-fluid">
+
+    {% if verification %}
+
     <form class="mui-form" action="" method="post"> {% csrf_token %}
       <legend>Crear Centro Turístico</legend>
       <div class="mui-textfield mui-textfield--float-label">
           {{ form.name.errors }}
         <textarea cols="40" id="id_name" name="name" rows="10" required="">
-{{ form.name.value }}
-
+            {% if form.name.value != None %}
+                {{ form.name.value }}
+            {% endif %}
         </textarea>
         <label>Nombre del Centro Turístico</label>
       </div>
 
 
+        <div class="mui-textfield mui-textfield--float-label">
+          {{ form.aditional_information.errors }}
+        <textarea cols="40" id="id_aditional_information" name="aditional_information" rows="10" required="">
+        {% if form.aditional_information.value != None %}
+                {{ form.aditional_information.value }}
+            {% endif %}
+
+        </textarea>
+        <label>Información Adicional</label>
+      </div>
+
+
        <div class="mui-textfield mui-textfield--float-label">
            {{ form.addres.errors }}
-        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{{ form.addres.value }}">
+        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value=" {% if form.addres.value != None %}
+                {{ form.addres.value }}
+            {% endif %}">
         <label>Dirección (Coordenadas) Ejemplo: -2.304061, -78.116023</label>
       </div>
 
 
       <div class="mui-textfield mui-textfield--float-label">
 {{ form.geolocation.errors }}
-          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="" value="{{ form.geolocation.value }}">
+          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="" value="{% if form.geolocation.value != None %}
+                {{ form.geolocation.value }}
+            {% endif %}">
         <label>Geolocalización (Coordenadas) Ejemplo: -2.304061, -78.116023 </label>
       </div>
         <div class="mui-textfield mui-textfield--float-label" style="display: block !important;">
@@ -39,6 +59,16 @@
         </div>
       <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
     </form>
+
+    {% else %}
+        <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">Solamente puede crear un centro turístico
+            <a  style="text-decoration: underline !important;" href="{% url 'Center:center_detail' center.slug %}">Ver Centro Turístico</a>  </div>
+    {% endif %}
+
+
+
+    <h4>Agregar Servicios <a href="{% url 'Service:service_create' center.slug %}" class="mui-btn mui-btn--small mui-btn--primary mui-btn--fab">+</a></h4>
+
     </div>
 
 {% endblock %}

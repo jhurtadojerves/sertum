@@ -1,16 +1,11 @@
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from centro.models import Center, CenterService
+from centro.models import Center
 from servicio.models import Service
 
-class ServiceInline(ModelForm):
-    class Meta:
-        model = CenterService
-        fields = ['center', 'service', 'cost', 'observation',]
+
 
 class CenterCreateForm(ModelForm):
     class Meta:
         model = Center
-        fields = ['name', 'addres', 'geolocation', 'user']
-
-ServiceFormset = inlineformset_factory(Center, CenterService, fields = ('center', 'service', 'cost', 'observation'), extra=3, can_delete=False, can_order=True)
+        fields = ['name', 'addres', 'geolocation', 'user', 'aditional_information',]

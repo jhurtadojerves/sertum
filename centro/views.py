@@ -4,7 +4,7 @@ from django.views.generic import DetailView, CreateView, UpdateView, ListView
 
 from .models import Center, Picture
 from usuario.models import User as Usuario
-from .form import CenterCreateForm, ServiceFormset
+from .form import CenterCreateForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required
@@ -37,6 +37,14 @@ class CenterCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CenterCreateView, self).get_context_data(**kwargs)
         context['request'] = self.request
+        user = Usuario.objects.get(user = self.request.user)
+        center = Center.objects.filter(user=user)
+        if center.exists():
+            context['verification'] = False
+            context['center'] = Center.objects.get(user=user)
+        else:
+            context['verification'] = True
+
         return context
 
 

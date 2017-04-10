@@ -19,7 +19,7 @@
               <div class="features-text">
                 <h4><a href="{% url 'Center:center_detail' center.slug %}">{{ center.name }}</a> </h4>
                 <p>
-                  Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard.
+                  {{ center.aditional_information|linebreaksbr }}
                 </p>
               </div>
              </div>

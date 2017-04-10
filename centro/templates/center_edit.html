@@ -12,7 +12,14 @@
         <textarea cols="40" id="id_name" name="name" rows="10" required="">{{ center.name }}</textarea>
         <label>Nombre del Centro Turístico</label>
       </div>
+         <div class="mui-textfield mui-textfield--float-label">
+          {{ form.aditional_information.errors }}
+        <textarea cols="40" id="id_aditional_information" name="aditional_information" rows="10" required="">
+        {{ form.aditional_information.value }}
 
+        </textarea>
+        <label>Información Adicional</label>
+      </div>
 
        <div class="mui-textfield mui-textfield--float-label">
         <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{{ center.addres }}">
