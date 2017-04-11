@@ -19,11 +19,14 @@ class CreateServiceView(CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateServiceView, self).get_context_data(**kwargs)
         context['request'] = self.request
-        user = Usuario.objects.get(user=self.request.user)
-        center = Center.objects.filter(user=user)
-        if center.exists():
-            context['verification'] = False
-            context['center'] = Center.objects.get(user=user)
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user = self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = False
+                context['center'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = True
         else:
             context['verification'] = True
 

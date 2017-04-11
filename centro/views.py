@@ -59,3 +59,20 @@ class CenterListView(ListView):
     model = Center
     template_name = 'center_list.html'
     context_object_name = 'centers'
+
+    def get_context_data(self, **kwargs):
+        context = super(CenterListView, self).get_context_data(**kwargs)
+        context['request'] = self.request
+
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user = self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = False
+                context['center'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = True
+        else:
+            context['verification'] = True
+
+        return context

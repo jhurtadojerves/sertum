@@ -9,6 +9,11 @@
 <div class="mui-container-fluid">
 
 
+    {% if verification %}
+    {% else %}
+
+
+
     <form class="mui-form" action="" method="post"> {% csrf_token %}
 
     <legend>Crear Servicio</legend>
@@ -49,7 +54,7 @@
     </div>
         <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
     </form>
-
+    {% endif %}
 </div>
 
 {% endblock %}

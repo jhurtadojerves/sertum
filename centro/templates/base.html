@@ -33,7 +33,21 @@
       </div>
         <ul class="nav navbar-nav main-navigation">
           <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
-          <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
+
+          {% if verification %}
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
+            {% else %}
+                <li><a href="#">Registrarse</a></li>
+            {% endif %}
+
+              
+
+          {% else %}
+              <li><a href="{% url 'Center:center_detail' center.slug %}">Ver Centro</a></li>
+            <li><a href="{% url 'Service:service_create' center.slug %}">Crear Servicio</a></li>
+          {% endif %}
+
         </ul>
         <button class="close-button" id="close-button">Cerrar Menu</button>
     </div>
