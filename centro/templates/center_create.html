@@ -37,7 +37,7 @@
 
        <div class="mui-textfield mui-textfield--float-label">
            {{ form.addres.errors }}
-        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value=" {% if form.addres.value != None %}
+        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{% if form.addres.value != None %}
                 {{ form.addres.value }}
             {% endif %}">
         <label>Dirección (Coordenadas) Ejemplo: -2.304061, -78.116023</label>

@@ -25,6 +25,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('centro.urls')),
     url(r'^', include('servicio.urls')),
+    url(r'^', include('usuario.urls')),
+
+
     url(r'^static/(?P<path>.*)$', serve, {
         'document_root': settings.STATIC_ROOT
     }),
@@ -32,5 +35,5 @@ urlpatterns = [
 
     url(r'^media/(?P<path>.*)$', serve, {
         'document_root': settings.MEDIA_ROOT
-    }, name = 'ver_imagen'),
+    }, name='ver_imagen'),
 ]

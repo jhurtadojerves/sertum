@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}
+Registro de Usuario
+{% endblock %}
+
+{% block content %}
+
+    {% if request.user.is_authenticated %}
+    {% else %}
+        <form class="mui-form" action="" method="post">
+        {% csrf_token %}
+
+
+        <div class="mui-textfield mui-textfield--float-label">
+           {{ form.username.errors }}
+            <input maxlength="200" name="username" type="text" required="" value="{% if form.username.value != None %}
+                    {{ form.username.value }}
+                {% endif %}">
+            <label>Alias</label>
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+           {{ form.first_name.errors }}
+            <input maxlength="200" name="first_name" type="text" required="" value="{% if form.first_name.value != None %}
+                    {{ form.first_name.value }}
+                {% endif %}">
+            <label>Nombre</label>
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+           {{ form.last_name.errors }}
+            <input maxlength="200" name="first_name" type="text" required="" value="{% if form.last_name.value != None %}
+                    {{ form.last_name.value }}
+                {% endif %}">
+            <label>Apellidos</label>
+        </div>
+
+         <div class="mui-textfield mui-textfield--float-label">
+           {{ form.email.errors }}
+            <input maxlength="200" name="last_name" type="text" required="" value="{% if form.email.value != None %}
+                    {{ form.email.value }}
+                {% endif %}">
+            <label>Email</label>
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+           {{ form.password.errors }}
+            <input maxlength="200" name="password" type="password" required="">
+            <label>Contraseña</label>
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+           {{ form.password2.errors }}
+            <input maxlength="200" name="password2" type="password" required="">
+            <label>Confirmar Contraseña</label>
+        </div>
+
+        <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
+    </form>
+    {% endif %}
+
+
+{% endblock %}

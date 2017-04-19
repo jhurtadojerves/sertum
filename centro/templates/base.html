@@ -38,7 +38,7 @@
             {% if request.user.is_authenticated %}
                 <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
             {% else %}
-                <li><a href="#">Registrarse</a></li>
+                <li><a href="{% url 'User:registrar' %}">Registrarse</a></li>
             {% endif %}
 
               

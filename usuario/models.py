@@ -1,13 +1,16 @@
 # -*- encoding: utf-8 -*-
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User as Usuario
+from django.core.signals import request_finished
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
 
 # Create your models here.
 
 class User(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(Usuario)
 
     def __str__(self):
         return self.user.get_full_name()
