@@ -38,9 +38,7 @@ class RegisterUserCreateView(CreateView):
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save()
-            user.is_active = 0
             profile = Profile.objects.get_or_create(user = user)
-            user.save()
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))

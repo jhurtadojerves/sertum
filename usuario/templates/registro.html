@@ -7,6 +7,7 @@ Registro de Usuario
 {% block content %}
 
     {% if request.user.is_authenticated %}
+        <meta http-equiv="REFRESH" content="0;url={% url 'Center:home' %}">
     {% else %}
         <form class="mui-form" action="" method="post">
         {% csrf_token %}
