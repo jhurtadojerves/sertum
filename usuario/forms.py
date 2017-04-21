@@ -1,6 +1,8 @@
-from usuario.models import User as Usuario
+from usuario.models import User as Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+
+from django import forms
 
 
 class UsuarioForm(UserCreationForm):
@@ -23,3 +25,8 @@ class UsuarioForm(UserCreationForm):
             'password2': 'Confirmar Contraseña',
         }
 
+class ProfilePermission(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['reason_to_validate',]
+        labels = ['Motivo para validar',]
