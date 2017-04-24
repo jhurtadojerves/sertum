@@ -38,6 +38,7 @@
             {% if request.user.is_authenticated %}
                 <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
             {% else %}
+                <li><a href="{% url 'User:login' %}">Iniciar Sesión</a></li>
                 <li><a href="{% url 'User:registrar' %}">Registrarse</a></li>
             {% endif %}
 
@@ -46,6 +47,7 @@
           {% else %}
             <li><a href="{% url 'Center:center_detail' center_view.slug %}">Ver Centro</a></li>
             <li><a href="{% url 'Service:service_create' center_view.slug %}">Crear Servicio</a></li>
+              <li><a href="{% url 'User:logout'%}">Cerrar Sesión</a></li>
           {% endif %}
 
         </ul>

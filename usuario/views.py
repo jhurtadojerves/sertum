@@ -7,18 +7,30 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.context import RequestContext
 
+
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 from django.contrib.auth.models import User, Permission
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
 from usuario.models import User as Profile
+from centro.models import Center
+
+
+
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
 
 
 from .forms import UsuarioForm, ProfilePermission
 
 
-from django.views.generic import CreateView, ListView, UpdateView
+from django.views.generic import CreateView, ListView, UpdateView, FormView, RedirectView
+
 
 
 
@@ -84,7 +96,57 @@ class AddPermissionUpdateView(PermissionRequiredMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
+class UserLogin(FormView):
+    model = User
+    form_class = AuthenticationForm
+    template_name = "login.html"
+    success_url = reverse_lazy("Center:home")
+    redirect_field_name = REDIRECT_FIELD_NAME
 
 
+    @method_decorator(sensitive_post_parameters('password'))
+    @method_decorator(csrf_protect)
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        request.session.set_test_cookie()
+
+        return super(UserLogin, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        auth_login(self.request, form.get_user())
+        # If the test cookie worked, go ahead and
+        # delete it since its no longer needed
+        if self.request.session.test_cookie_worked():
+            self.request.session.delete_test_cookie()
+
+        return super(UserLogin, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context =  super(UserLogin, self).get_context_data(**kwargs)
 
 
+        context['request'] = self.request
+
+        if self.request.user.is_authenticated():
+            user = Profile.objects.filter(user = self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = False
+                context['center_view'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = True
+        else:
+            context['verification'] = True
+
+
+        return context
+
+class LogoutView(RedirectView):
+    """
+    Provides users the ability to logout
+    """
+    url = reverse_lazy('User:login')
+
+    def get(self, request, *args, **kwargs):
+        auth_logout(request)
+        return super(LogoutView, self).get(request, *args, **kwargs)
