@@ -18,7 +18,7 @@
                 </p>
               <div id="images">
                   {% for picture in pictures %}
-                      <a href="{% url 'Center:ver_imagen' picture.picture %}" target="_blank"><img src="{% url 'Center:ver_imagen' picture.picture %}" alt="" style="width: 50px;"></a>
+                      <a href="{% url 'ver_imagen' picture.picture %}" target="_blank"><img src="{% url 'ver_imagen' picture.picture %}" alt="" style="width: 50px;"></a>
                   {% endfor %}
               </div>
                   

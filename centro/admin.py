@@ -15,6 +15,7 @@ class PictureInline(admin.TabularInline):
 class ServiceInline(admin.TabularInline):
     model = Service
 
+
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
     list_display = ['id', 'name', 'slug', 'user', 'addres', ]
