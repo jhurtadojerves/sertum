@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crear Centro Turístico
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+
+    {% if verification %}
+
+    <form class="mui-form" action="" method="post" enctype="multipart/form-data"> {% csrf_token %}
+      {{ form.as_p }}
+
+
+      <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
+    </form>
+
+    {% else %}
+        <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">No tienes permisos para agregar imágenes a este centro turístico
+              </div>
+    {% endif %}
+
+
+
+
+
+    </div>
+
+{% endblock %}
+

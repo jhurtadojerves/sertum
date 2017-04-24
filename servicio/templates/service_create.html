@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Nombre del Centro - Crear Servicio
+    {{ center_view.name }} - Crear Servicio
 {% endblock title %}
 
 {% block content %}
@@ -16,7 +16,6 @@
 
     <form class="mui-form" action="" method="post"> {% csrf_token %}
 
-    <legend>Crear Servicio</legend>
     <div class="mui-textfield mui-textfield--float-label">
       {{ form.name.errors }}
     <textarea cols="40" id="id_name" name="name" rows="10" required>
@@ -49,7 +48,7 @@
     <div class="mui-textfield mui-textfield--float-label" style="display: none !important;">
     {{ form.center.errors }}
         <select id="id_center" name="center" required>
-        <option value="{{ center.id }}">{{ center.name }}</option>
+        <option value="{{ center_view.id }}">{{ center_view.name }}</option>
     </select>
     </div>
         <button type="submit" class="mui-btn mui-btn--raised">Crear</button>

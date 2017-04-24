@@ -2,6 +2,8 @@ from usuario.models import User as Profile
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
+
+
 from django import forms
 
 
@@ -30,3 +32,5 @@ class ProfilePermission(forms.ModelForm):
         model = Profile
         fields = ['reason_to_validate',]
         labels = ['Motivo para validar',]
+
+

@@ -46,7 +46,8 @@
 
           {% else %}
             <li><a href="{% url 'Center:center_detail' center_view.slug %}">Ver Centro</a></li>
-            <li><a href="{% url 'Service:service_create' center_view.slug %}">Crear Servicio</a></li>
+            <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
+              <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
               <li><a href="{% url 'User:logout'%}">Cerrar Sesión</a></li>
           {% endif %}
 

@@ -6,7 +6,7 @@ from django.contrib import admin
 
 
 
-from .views import CenterDetailView, CenterCreateView, CenterUpdateView, CenterListView
+from .views import CenterDetailView, CenterCreateView, CenterUpdateView, CenterListView, PictureAdd
 
 app_name = 'Center'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^centro/ver/(?P<slug>[-\w ]+)/$', CenterDetailView.as_view(), name='center_detail'),
     url(r'^centro/crear/$', CenterCreateView.as_view(), name='center_create'),
     url(r'^centro/editar/(?P<slug>[-\w ]+)/$', CenterUpdateView .as_view(), name='center_edit'),
+    url(r'^centro/imagen/crear/$', PictureAdd.as_view(), name='add_image'),
 ]
