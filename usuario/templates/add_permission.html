@@ -1,14 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <form class="mui-form" action="" method="post"> {% csrf_token %}
-        {{ form.as_p }}
+{% extends 'base.html' %}
 
-        <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
+{% block title %}
+    Crear Centro Turístico
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+
+    <form class="mui-form" action="" method="post"> {% csrf_token %}
+      <legend>{{ usuario.get_full_name }}</legend>
+        <br><br>
+        <div class="mui-textfield mui-textfield--float-label">
+          {{ form.reason_to_validate.errors }}
+        <textarea cols="40" id="reason_to_validate" name="reason_to_validate" rows="10" required="">{% if form.reason_to_validate.value != None %}{{ form.reason_to_validate.value }}{% endif %}</textarea>
+        <label>Motivo para Validar</label>
+      </div>
+
+
+      <button type="submit" class="mui-btn mui-btn--raised">Validar</button>
     </form>
-</body>
-</html>
+
+    </div>
+
+{% endblock %}

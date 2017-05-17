@@ -8,6 +8,7 @@ from .form import CenterCreateForm, PictureCreateForm, PictureAddForm
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import permission_required
+
 from django.utils.decorators import method_decorator
 
 from django.contrib.auth.mixins import PermissionRequiredMixin

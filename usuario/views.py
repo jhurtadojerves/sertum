@@ -6,10 +6,11 @@ from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.context import RequestContext
-
+from usuario.models import User as Usuario
 
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 from django.contrib.auth.models import User, Permission
@@ -59,24 +60,46 @@ class RegisterUserCreateView(CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class ValidationUserListView(PermissionRequiredMixin, ListView):
-    permission_required = 'is_staff'
+class ValidationUserListView(ListView):
     model = Profile
-    template_name = "validar.html"
+    template_name = "validate_user_list.html"
     context_object_name = 'usuarios'
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, *args, **kwargs):
+        return super(ValidationUserListView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
         queryset = self.model.objects.filter(has_add_center = False)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super(ValidationUserListView, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user = self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = True
+                context['center_view'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = False
+        else:
+            context['verification'] = True
 
-class AddPermissionUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = 'is_staff'
+        return context
+
+
+class AddPermissionUpdateView(UpdateView):
     model = Profile
     template_name = 'add_permission.html'
     form_class = ProfilePermission
     context_object_name = 'usuario'
     success_url = 'User:listar_sin_permisos'
+
+    @method_decorator(staff_member_required)
+    def dispatch(self, *args, **kwargs):
+        return super(AddPermissionUpdateView, self).dispatch(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
@@ -95,6 +118,22 @@ class AddPermissionUpdateView(PermissionRequiredMixin, UpdateView):
             return HttpResponseRedirect(reverse(self.get_success_url()))
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+    def get_context_data(self, **kwargs):
+        context = super(AddPermissionUpdateView, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user = self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = True
+                context['center_view'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = False
+        else:
+            context['verification'] = True
+
+        return context
 
 class UserLogin(FormView):
     model = User

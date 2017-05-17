@@ -34,10 +34,25 @@
         <ul class="nav navbar-nav main-navigation">
           <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
 
-          {% if verification %}
+
             {% if request.user.is_authenticated %}
-                <li><a href="{% url 'Center:center_create' %}">Crear Centro</a></li>
+
+                {% if verification %}
+                    <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
+                {% else %}
+                    <li><a href="{% url 'Center:center_detail' center_view.slug %}">Ver Destino</a></li>
+                    <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
+                    <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
+                {% endif %}
+
+                {% if request.user.is_staff %}
+                      <li><a href="{% url 'User:listar_sin_permisos' %}">Validar Usuarios</a></li>
+                {% endif %}
+
                 <li><a href="{% url 'User:logout'%}">Cerrar Sesión</a></li>
+
+
+
             {% else %}
                 <li><a href="{% url 'User:login' %}">Iniciar Sesión</a></li>
                 <li><a href="{% url 'User:registrar' %}">Registrarse</a></li>
@@ -45,12 +60,9 @@
 
               
 
-          {% else %}
-            <li><a href="{% url 'Center:center_detail' center_view.slug %}">Ver Centro</a></li>
-            <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
-              <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
 
-          {% endif %}
+
+
 
         </ul>
         <button class="close-button" id="close-button">Cerrar Menu</button>
@@ -132,7 +144,7 @@
                     <i class="mdi-content-mail"></i>
                   </div>
                   <h4>Email</h4>
-                  <p>mes@juliohurtado.me</p>
+                  <p>me@juliohurtado.me</p>
                 </div>
               </div>
               <div class="clear"></div>

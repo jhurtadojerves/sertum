@@ -8,5 +8,5 @@ from .views import CreateServiceView
 app_name = 'Service'
 
 urlpatterns = [
-    url(r'^centro/servicio/crear/$', CreateServiceView.as_view(), name='service_create'),
+    url(r'^servicio/crear/$', CreateServiceView.as_view(), name='service_create'),
 ]
