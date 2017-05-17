@@ -16,7 +16,7 @@ class CreateServiceView(CreateView):
     template_name = "service_create.html"
     context_object_name = "service"
     fields = ['name', 'center', 'cost', 'observation', ]
-    success_url = "../.."
+    success_url = "/"
 
 
     def get_context_data(self, **kwargs):

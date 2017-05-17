@@ -98,7 +98,7 @@ class CenterListView(ListView):
         return context
 
 class PictureAdd(PermissionRequiredMixin, FormView):
-    permission_required = "is_authenticated"
+    permission_required = "usuario.add_center"
     template_name = "add_picture.html"
     form_class = PictureAddForm
 
