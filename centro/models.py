@@ -8,14 +8,15 @@ from django_google_maps import fields as map_fields
 from django.core.validators import MinValueValidator, MaxValueValidator
 from usuario.models import User
 
-
+from multiselectfield import MultiSelectField
 
 # Create your models here.
+
 
 class Center(models.Model):
     name = models.TextField(blank=False)
     addres = map_fields.AddressField(max_length=200)
-    aditional_information = models.TextField(blank=True)
+    aditional_information = models.TextField(blank=True, verbose_name='Place Description')
     geolocation = map_fields.GeoLocationField(max_length=100)
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
     user = models.OneToOneField(User, unique=True, null=True)
@@ -24,21 +25,149 @@ class Center(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('Center:center_detail', args=[self.slug,])
+        return reverse('Center:center_detail', args=[self.slug, ])
 
-'''class CenterService(models.Model):
-    center = models.ForeignKey(Center)
-    service = models.ForeignKey(Service)
-    cost = models.DecimalField(max_digits=10, decimal_places=2, blank=False)
-    observation = models.TextField(blank=False)
-
-    class Meta:
-        unique_together = ('center', 'service',)
-
-    def __str__(self):
-        return self.center.name
-'''
 
 class Picture(models.Model):
     picture = models.ImageField()
     center = models.ForeignKey(Center)
+
+
+class Knowledge(models.Model):
+    center = models.ForeignKey(Center, unique=True)
+
+    group_type_choices = (
+        ('0', 'Niños'),
+        ('1', 'Adultos'),
+        ('2', 'Adultos Mayores'),
+    )
+
+    activities_choices = (
+        ('0', 'Observar Paisajes'),
+        ('1', 'Senderismo'),
+        ('2', 'Contacto con la Naturaleza'),
+        ('3', 'Visita Cultura'),
+        ('4', 'Piscinas, Canchas, etc')
+    )
+
+    transport_choices = (
+        ('0', 'Transporte Público'),
+        ('1', 'Transporte Privado'),
+    )
+
+    food_choices = (
+        ('0', 'Comida Típica'),
+        ('1', 'Platos a la Carta'),
+        ('2', 'Menú del día'),
+        ('3', 'No comida')
+    )
+
+    # 1 =>
+    group_type = MultiSelectField(
+        max_length=1,
+        default='0',
+        choices=group_type_choices
+    )
+    # 2 =>
+    money_per_person = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(0),
+        ]
+    )
+    # 3 =>
+    activities = models.CharField(
+        max_length=1,
+        default=4,
+        choices=activities_choices
+    )
+    # 4
+    transport = MultiSelectField(
+        max_length=1,
+        choices=transport_choices,
+        default='0'
+    )
+    # 5
+    food = models.CharField(
+        max_length=1,
+        choices=food_choices,
+        default=1
+    )
+    # 6
+    extreme_sport = models.BooleanField(default=False)
+    # 7
+    sport_fishing = models.BooleanField(default=False)
+    # 8
+    night_bar = models.BooleanField(default=True)
+    # 9
+    has_lodging = models.BooleanField(default=False)
+
+class Poll(models.Model):
+    group_type_choices = (
+        ('0', 'Niños'),
+        ('1', 'Adultos'),
+        ('2', 'Adultos Mayores'),
+    )
+
+    activities_choices = (
+        ('0', 'Observar Paisajes'),
+        ('1', 'Senderismo'),
+        ('2', 'Contacto con la Naturaleza'),
+        ('3', 'Visita Cultura'),
+        ('4', 'Piscinas, Canchas, etc')
+    )
+
+    transport_choices = (
+        ('0', 'Transporte Público'),
+        ('1', 'Transporte Privado'),
+    )
+
+    food_choices = (
+        ('0', 'Comida Típica'),
+        ('1', 'Platos a la Carta'),
+        ('2', 'Menú del día'),
+        ('3', 'No comida')
+    )
+
+    # 1 =>
+    group_type = MultiSelectField(
+        max_length=1,
+        default='0',
+        choices=group_type_choices
+    )
+    # 2 =>
+    money_per_person = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        validators=[
+            MinValueValidator(0),
+        ]
+    )
+    # 3 =>
+    activities = models.CharField(
+        max_length=1,
+        default=4,
+        choices=activities_choices
+    )
+    # 4
+    transport = MultiSelectField(
+        max_length=1,
+        choices=transport_choices,
+        default='0'
+    )
+    # 5
+    food = models.CharField(
+        max_length=1,
+        choices=food_choices,
+        default=1
+    )
+    # 6
+    extreme_sport = models.BooleanField(default=False)
+    # 7
+    sport_fishing = models.BooleanField(default=False)
+    # 8
+    night_bar = models.BooleanField(default=True)
+    # 9
+    has_lodging = models.BooleanField(default=False)
+    # 10

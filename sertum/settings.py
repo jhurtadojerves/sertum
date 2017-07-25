@@ -25,7 +25,7 @@ SECRET_KEY = '3ol28nc881%%-=74kgvn*izk9(!*a#0xxkbw0d2&z$+b^e^rph'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'servicio',
     'usuario',
     'django_google_maps',
+    'multiselectfield',
 ]
 
 MIDDLEWARE = [

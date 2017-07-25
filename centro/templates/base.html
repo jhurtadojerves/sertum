@@ -23,6 +23,10 @@
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <link href="{% static 'css/responsive.css' %}" rel="stylesheet">
     <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
+      <link rel="stylesheet" href="{% static 'css/blueimp-gallery.min.css' %}">
+
+
+
   </head>
 
   <body>
@@ -36,7 +40,7 @@
 
 
             {% if request.user.is_authenticated %}
-
+                <li><a href="{% url 'Center:encuesta' %}">Crear Destino</a></li>
                 {% if verification %}
                     <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
                 {% else %}
@@ -47,6 +51,7 @@
 
                 {% if request.user.is_staff %}
                       <li><a href="{% url 'User:listar_sin_permisos' %}">Validar Usuarios</a></li>
+                    <li><a href="/admin/">Administrar</a></li>
                 {% endif %}
 
                 <li><a href="{% url 'User:logout'%}">Cerrar Sesión</a></li>
@@ -110,13 +115,12 @@
           
           {% endblock %}
 
-        </div>
 
 
            {% block map %}
 
            {% endblock %}
-
+        </div>
 
       </div>
 
@@ -278,6 +282,9 @@
             $.material.init();
         });
     </script>
+
+
+    <script src="{% static 'js/blueimp-gallery.min.js' %}"></script>
   </body>
 
 </html>

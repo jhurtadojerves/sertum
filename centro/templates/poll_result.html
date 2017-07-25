@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Recomendación {{ centerS }}
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+    <P>El sistema le recomienda visitar el destino turístico {{ centerS }} debido a que cumple con 7 de los 9 parámetros que seleccionó en su encuesta. </P>
+
+    <p>Mostramos a continuación una galería de imágenes del destino y un enlace para obtener más información. <a href="/destino/ver/{{ centerS.slug }}">Ver Más</a></p>
+
+    <div id="links">
+    {% for picture in pictures %}
+
+
+            <a href="{% url 'ver_imagen' picture.picture %}">
+                <img src="{% url 'ver_imagen' picture.picture %}" style="max-width: 200px; border-style:dotted;border-width:2px;">
+            </a>
+
+      {% endfor %}
+</div>
+    <script>
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+</script>
+
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+
+
+
+
+</div>
+
+{% endblock %}
+

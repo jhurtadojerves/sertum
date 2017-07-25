@@ -13,6 +13,7 @@ class User(models.Model):
     user = models.OneToOneField(Usuario)
     has_add_center = models.BooleanField(default=False)
     reason_to_validate = models.TextField(blank=True)
+
     def __str__(self):
         return self.user.get_full_name()
 

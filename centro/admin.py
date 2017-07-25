@@ -1,5 +1,5 @@
 from django.contrib import admin
-from centro.models import Center, Picture
+from centro.models import Center, Picture, Knowledge, Poll
 from servicio.models import Service
 from django.forms.widgets import TextInput
 
@@ -24,7 +24,6 @@ class AdminCenter(admin.ModelAdmin):
     }
     inlines =[
         PictureInline,
-        ServiceInline,
     ]
 
     list_editable = ['user',]
@@ -37,4 +36,10 @@ class PictureAdmin(admin.ModelAdmin):
         'center',
     ]
 
+@admin.register(Knowledge)
+class KnowledgeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'center']
 
+@admin.register(Poll)
+class PollAdmin(admin.ModelAdmin):
+    list_display = ['id']

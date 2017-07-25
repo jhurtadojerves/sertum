@@ -3,10 +3,7 @@
 from django.conf.urls import url
 from django.contrib import admin
 
-
-
-
-from .views import CenterDetailView, CenterCreateView, CenterUpdateView, CenterListView, PictureAdd
+from .views import CenterDetailView, CenterCreateView, CenterUpdateView, CenterListView, PictureAdd, PollForm, PollResult
 
 app_name = 'Center'
 
@@ -16,4 +13,6 @@ urlpatterns = [
     url(r'^destino/crear/$', CenterCreateView.as_view(), name='center_create'),
     url(r'^destino/editar/(?P<slug>[-\w ]+)/$', CenterUpdateView .as_view(), name='center_edit'),
     url(r'^imagen/agregar/$', PictureAdd.as_view(), name='add_image'),
+    url(r'^encuesta/$', PollForm.as_view(), name='encuesta'),
+    url(r'^encuesta/(?P<pk>[-\d ]+)/$', PollResult.as_view(), name='encuesta_resultado'),
 ]

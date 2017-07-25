@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
-from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView
+from django.views.generic import DetailView, CreateView, UpdateView, ListView, FormView, View
 
-from .models import Center, Picture
+from .models import Center, Picture, Knowledge, Poll
 from usuario.models import User as Usuario
-from .form import CenterCreateForm, PictureCreateForm, PictureAddForm
+from .form import CenterCreateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import permission_required
@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
+import operator
 
 # Create your views here.
 
@@ -24,7 +25,7 @@ class CenterDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context =  super(CenterDetailView, self).get_context_data(**kwargs)
-        context['pictures'] = Picture.objects.filter(center__slug = self.object.slug)
+        context['pictures'] = Picture.objects.filter(center__slug=self.object.slug)
 
         context['request'] = self.request
 
@@ -67,7 +68,6 @@ class CenterCreateView(CreateView):
             context['verification'] = True
 
         return context
-
 
 class CenterUpdateView(UpdateView):
     model = Center
@@ -130,5 +130,99 @@ class PictureAdd(PermissionRequiredMixin, FormView):
                 context['verification'] = False
         else:
             context['verification'] = True
+
+        return context
+
+class PollForm(CreateView):
+    template_name = "poll_form.html"
+    form_class = KnowledgePollForm
+    success_url = reverse_lazy('Center:encuesta_resultado')
+
+
+    def get_context_data(self, **kwargs):
+        context = super(PollForm, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user=self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = False
+                context['center_view'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = True
+        else:
+            context['verification'] = True
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+
+        poll = form.save()
+
+
+
+        return HttpResponseRedirect(str(poll.id))
+
+class PollResult(DetailView):
+    model = Poll
+    template_name="poll_result.html"
+    context_object_name = 'poll'
+    def get_context_data(self, **kwargs):
+        context = super(PollResult, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user=self.request.user)
+            center = Center.objects.filter(user=user)
+            if center.exists():
+                context['verification'] = False
+                context['center_view'] = Center.objects.get(user=user)
+            else:
+                context['verification'] = True
+        else:
+            context['verification'] = True
+
+
+
+        #poll = Poll.objects.filter(id=self.kwargs['pk'])
+        poll = self.get_object()
+
+        money_int = int(poll.money_per_person)
+
+        polls = Knowledge.objects.filter(group_type=poll.group_type, activities=poll.activities,
+                                         money_per_person__in=range(0, money_int))
+        # money_per_person__range=range(0, money_int),
+
+
+
+        pfilter = list()
+
+        if polls.exists():
+            for p in polls:
+                contador = 3
+                if p.transport == poll.transport:
+                    contador = contador + 1
+                if p.food == poll.food:
+                    contador = contador + 1
+                if p.extreme_sport == poll.extreme_sport:
+                    contador = contador + 1
+                if p.sport_fishing == poll.sport_fishing:
+                    contador = contador + 1
+                if p.night_bar == poll.night_bar:
+                    contador = contador + 1
+                if p.has_lodging == poll.has_lodging:
+                    contador = contador + 1
+                pfilter.append((p.center, contador))
+            pFilterOrder = pfilter.sort(key=lambda x: x[1])
+
+            centerAndValue = pfilter.pop(0)
+
+        else:
+            centerAndValue = ("No se ha encontrado ningún centro que cumpla con sus especificaciones", "")
+
+        context['centerS'] = centerAndValue[0]
+        context['pictures'] = Picture.objects.filter(center__slug=centerAndValue[0].slug)
+        context['valueS'] = centerAndValue[1]
 
         return context

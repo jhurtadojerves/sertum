@@ -6,35 +6,98 @@
 
 {% block content %}
 
-    <div class="col-md-12 col-sm-12 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+    <style>
+    .gallery
+{
+    display: inline-block;
+    margin-top: 20px;
+}
+    </style>
+
+    <div class="col-md-12 col-sm-12 wow fadeInDown">
             <div class="features">
               <div class="icon">
                 <i class="mdi-action-done-all"></i>
               </div>
               <div class="features-text">
                 <h4>{{ center.name }}</h4>
-                <p>
+                <p style="text-align: justify;">
                   {{ center.aditional_information|linebreaksbr }}
                 </p>
-              <div id="images">
-                  {% for picture in pictures %}
-                      <a href="{% url 'ver_imagen' picture.picture %}" target="_blank"><img src="{% url 'ver_imagen' picture.picture %}" alt="" style="width: 50px;"></a>
-                  {% endfor %}
-              </div>
-                  
-                  
-                  
+
+
+
               </div>
             </div>
+    </div>
+
+    <div id="links" class="col-md-12 col-sm-12">
+
+        <div class="features">
+              <div class="icon">
+
+              </div>
+              <div class="features-text" style="margin: auto auto; text-align: center;">
+                {% for picture in pictures %}
+
+                <a href="{% url 'ver_imagen' picture.picture %}">
+                    <img src="{% url 'ver_imagen' picture.picture %}" style="max-width: 200px; border-style:dotted;border-width:2px;">
+                </a>
+
+                {% endfor %}
+
+              </div>
+        </div>
+
+
+    </div>
+    <script>
+document.getElementById('links').onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+</script>
+
+    <div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    <a class="play-pause"></a>
+    <ol class="indicator"></ol>
+</div>
+
+
 
 {% endblock %}
+
+
+
+
 {% block map%}
-    <div class="row" style="height: 700px !important; width: auto; margin: auto auto;">
 
-<div id="map" class="row" style="height: 85%; width: 60%;"></div>
+    <div class="col-md-12 col-sm-12" style="height: 500px;">
+
+        <div class="features" style="height: 500px;">
+              <div class="icon">
+
+              </div>
+              <div class="features-text" style="height: 500px;">
+                <div id="map" class="row" style="height: 500px;"></div>
+
+              </div>
+        </div>
+
+
     </div>
 
-    </div>
+
+
 
 
 

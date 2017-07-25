@@ -45,16 +45,14 @@ class RegisterUserCreateView(CreateView):
         context = super(RegisterUserCreateView, self).get_context_data(**kwargs)
         context['verification'] = True
         context['request'] = self.request
-
         return context
-
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
         if form.is_valid():
             user = form.save()
-            profile = Profile.objects.get_or_create(user = user)
+            profile = Profile.objects.get_or_create(user=user)
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
