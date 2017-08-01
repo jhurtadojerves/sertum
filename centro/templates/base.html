@@ -40,7 +40,7 @@
 
 
             {% if request.user.is_authenticated %}
-                <li><a href="{% url 'Center:encuesta' %}">Crear Destino</a></li>
+                <li><a href="{% url 'Center:encuesta' %}">Elegir Destino</a></li>
                 {% if verification %}
                     <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
                 {% else %}

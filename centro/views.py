@@ -13,9 +13,12 @@ from django.utils.decorators import method_decorator
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
+from django.shortcuts import get_object_or_404
+
 import operator
 
 # Create your views here.
+
 
 class CenterDetailView(DetailView):
     model = Center
@@ -43,6 +46,7 @@ class CenterDetailView(DetailView):
 
         return context
 
+
 class CenterCreateView(CreateView):
     model = Center
     template_name = 'center_create.html'
@@ -69,12 +73,14 @@ class CenterCreateView(CreateView):
 
         return context
 
+
 class CenterUpdateView(UpdateView):
     model = Center
     template_name = 'center_edit.html'
     slug_field = 'slug'
     form_class = CenterCreateForm
     context_object_name = 'center'
+
 
 class CenterListView(ListView):
     model = Center
@@ -97,6 +103,7 @@ class CenterListView(ListView):
             context['verification'] = True
 
         return context
+
 
 class PictureAdd(PermissionRequiredMixin, FormView):
     permission_required = "usuario.add_center"
@@ -133,6 +140,7 @@ class PictureAdd(PermissionRequiredMixin, FormView):
 
         return context
 
+
 class PollForm(CreateView):
     template_name = "poll_form.html"
     form_class = KnowledgePollForm
@@ -165,6 +173,7 @@ class PollForm(CreateView):
 
         return HttpResponseRedirect(str(poll.id))
 
+
 class PollResult(DetailView):
     model = Poll
     template_name="poll_result.html"
@@ -190,39 +199,51 @@ class PollResult(DetailView):
 
         money_int = int(poll.money_per_person)
 
-        polls = Knowledge.objects.filter(group_type=poll.group_type, activities=poll.activities,
-                                         money_per_person__in=range(0, money_int))
+        #polls = Knowledge.objects.filter(group_type=poll.group_type, activities=poll.activities,
+#                                         money_per_person__in=range(0, money_int))
         # money_per_person__range=range(0, money_int),
-
+        polls = Knowledge.objects.all()
 
 
         pfilter = list()
 
         if polls.exists():
             for p in polls:
-                contador = 3
-                if p.transport == poll.transport:
-                    contador = contador + 1
+                contador = 0
+                if p.group_type == poll.group_type: #Hay que arreglar
+                    contador += 1
+                if p.activities == poll.activities:
+                    contador += 1
+                if p.money_per_person>=0 and p.money_per_person<=money_int:
+                    contador += 1
+                if p.transport == poll.transport: #Hay que arreglar
+                    contador += 1
                 if p.food == poll.food:
-                    contador = contador + 1
+                    contador += 1
                 if p.extreme_sport == poll.extreme_sport:
-                    contador = contador + 1
+                    contador += 1
                 if p.sport_fishing == poll.sport_fishing:
-                    contador = contador + 1
+                    contador += 1
                 if p.night_bar == poll.night_bar:
-                    contador = contador + 1
+                    contador += 1
                 if p.has_lodging == poll.has_lodging:
-                    contador = contador + 1
+                    contador += 1
                 pfilter.append((p.center, contador))
-            pFilterOrder = pfilter.sort(key=lambda x: x[1])
+            pfilter.sort(key=lambda x: x[1])
 
-            centerAndValue = pfilter.pop(0)
+            centerAndValue = pfilter.pop()
 
         else:
             centerAndValue = ("No se ha encontrado ningún centro que cumpla con sus especificaciones", "")
 
         context['centerS'] = centerAndValue[0]
+
+
+
         context['pictures'] = Picture.objects.filter(center__slug=centerAndValue[0].slug)
+        context['existe'] = True
         context['valueS'] = centerAndValue[1]
+
+
 
         return context

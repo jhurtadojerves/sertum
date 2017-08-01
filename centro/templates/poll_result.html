@@ -7,9 +7,13 @@
 {% block content %}
 
 <div class="mui-container-fluid">
-    <P>El sistema le recomienda visitar el destino turístico {{ centerS }} debido a que cumple con 7 de los 9 parámetros que seleccionó en su encuesta. </P>
 
+
+
+        <P>El sistema le recomienda visitar el destino turístico {{ centerS }} debido a que cumple con {{ valueS }} de los 9 parámetros que seleccionó en su encuesta. </P>
     <p>Mostramos a continuación una galería de imágenes del destino y un enlace para obtener más información. <a href="/destino/ver/{{ centerS.slug }}">Ver Más</a></p>
+
+
 
     <div id="links">
     {% for picture in pictures %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from centro.models import Center, Picture, Knowledge, Poll
+from centro.models import Center, Picture, Knowledge, Poll, ActivityForKnowledge, FoodForKnowledge, GroupTypeForKnowledge
 from servicio.models import Service
 from django.forms.widgets import TextInput
 
@@ -11,6 +11,7 @@ from django_google_maps.fields import AddressField, GeoLocationField
 
 class PictureInline(admin.TabularInline):
     model = Picture
+
 
 class ServiceInline(admin.TabularInline):
     model = Service
@@ -42,4 +43,19 @@ class KnowledgeAdmin(admin.ModelAdmin):
 
 @admin.register(Poll)
 class PollAdmin(admin.ModelAdmin):
-    list_display = ['id']
+    list_display = ['user']
+
+
+@admin.register(ActivityForKnowledge)
+class ActivityForKnowledge(admin.ModelAdmin):
+    list_display = ['name']
+
+
+@admin.register(GroupTypeForKnowledge)
+class GroupTypeForKnowledgeAdmin(admin.ModelAdmin):
+    list_display = ['name']
+
+
+@admin.register(FoodForKnowledge)
+class FoodForKnowledge(admin.ModelAdmin):
+    list_display = ['name']
