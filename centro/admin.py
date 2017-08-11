@@ -1,5 +1,5 @@
 from django.contrib import admin
-from centro.models import Center, Picture, Knowledge, Poll, ActivityForKnowledge, FoodForKnowledge, GroupTypeForKnowledge
+from centro.models import Center, Picture, Knowledge, Poll, ActivityForKnowledge, FoodForKnowledge, GroupTypeForKnowledge, TransportForKnowledge
 from servicio.models import Service
 from django.forms.widgets import TextInput
 
@@ -43,7 +43,7 @@ class KnowledgeAdmin(admin.ModelAdmin):
 
 @admin.register(Poll)
 class PollAdmin(admin.ModelAdmin):
-    list_display = ['user']
+    list_display = ['id', 'user', 'center', 'value', 'date']
 
 
 @admin.register(ActivityForKnowledge)
@@ -58,4 +58,9 @@ class GroupTypeForKnowledgeAdmin(admin.ModelAdmin):
 
 @admin.register(FoodForKnowledge)
 class FoodForKnowledge(admin.ModelAdmin):
+    list_display = ['name']
+
+
+@admin.register(TransportForKnowledge)
+class TransportForKnowledge(admin.ModelAdmin):
     list_display = ['name']

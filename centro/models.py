@@ -34,25 +34,31 @@ class Picture(models.Model):
 
 
 class ActivityForKnowledge(models.Model):
-    name = models.TextField(blank=False)
+    name = models.TextField(blank=False, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class GroupTypeForKnowledge(models.Model):
-    name = models.TextField(blank=False)
+    name = models.TextField(blank=False, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class FoodForKnowledge(models.Model):
-    name = models.TextField(blank=False)
+    name = models.TextField(blank=False, unique=True)
 
     def __str__(self):
         return self.name
 
+
+class TransportForKnowledge(models.Model):
+    name = models.TextField(blank=False, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Knowledge(models.Model):
     center = models.ForeignKey(Center, unique=True)
@@ -64,23 +70,23 @@ class Knowledge(models.Model):
     )
 
     activities_choices = (
-        ('0', 'Observar Paisajes'),
+        ('0', 'Observación de Paisajes'),
         ('1', 'Senderismo'),
         ('2', 'Contacto con la Naturaleza'),
         ('3', 'Visita Cultura'),
-        ('4', 'Piscinas, Canchas, etc')
+        ('4', 'Piscinas, Canchas, etc'),
+        ('5', 'Canchas y Recreación')
     )
 
     transport_choices = (
-        ('0', 'Transporte Público'),
-        ('1', 'Transporte Privado'),
+        ('1', 'Transporte Público'),
+        ('2', 'Transporte Privado'),
     )
 
     food_choices = (
         ('0', 'Comida Típica'),
         ('1', 'Platos a la Carta'),
-        ('2', 'Menú del día'),
-        ('3', 'No comida')
+        ('2', 'Menú del día')
     )
 
     # 1 =>
@@ -99,11 +105,7 @@ class Knowledge(models.Model):
     activities = models.ManyToManyField(ActivityForKnowledge)
 
     # 4
-    transport = models.CharField(
-        max_length=32,
-        choices=transport_choices,
-        default='0'
-    )
+    transport = models.ManyToManyField(TransportForKnowledge)
 
     # 5
     food = models.ManyToManyField(FoodForKnowledge)
@@ -120,7 +122,9 @@ class Knowledge(models.Model):
     # 9
     has_lodging = models.BooleanField(default=False)
 
+
 class Poll(models.Model):
     user = models.ForeignKey(User, null=True)
     center = models.ForeignKey(Center, null=True)
-    date = models.DateField(auto_now_add=True)
+    value = models.PositiveIntegerField(null=True)
+    date = models.DateTimeField(auto_now_add=True)

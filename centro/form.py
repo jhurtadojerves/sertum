@@ -1,8 +1,9 @@
 from django.forms import ModelForm
 from django.forms.models import inlineformset_factory
-from centro.models import Center, Picture, Knowledge, Poll
+from centro.models import Center, Picture, Knowledge, Poll, ActivityForKnowledge, GroupTypeForKnowledge, FoodForKnowledge, TransportForKnowledge
 from servicio.models import Service
 from django import forms
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from django import forms
 
@@ -24,9 +25,18 @@ class PictureAddForm(forms.Form):
 
 
 class KnowledgePollForm(forms.Form):
-    group_type_choices = (
-        ('0', 'Niños'),
-        ('1', 'Adultos'),
-        ('2', 'Adultos Mayores'),
-    )
-    group_type = forms.ChoiceField(choices=group_type_choices)
+    group_type = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple,
+                                                queryset=GroupTypeForKnowledge.objects.all(), label='Grupo de Personas', required=True)
+    money_per_people = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True,
+                                          label='Dinero máximo por persona')
+    activity = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple,
+                                              queryset=ActivityForKnowledge.objects.all(), required=True,
+                                              label='Actividades que desea desarrollar')
+    transport = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple, queryset=TransportForKnowledge.objects.all(), required=True,
+                                               label='Método de transporte preferido')
+    food = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple, queryset=FoodForKnowledge.objects.all(),
+                                  required=True, label='Comida preferida')
+    extreme_sport = forms.BooleanField(required=None, label='¿Desea practicar deportes extremos?')
+    sport_fishing = forms.BooleanField(required=None, label='¿Desea realizar pesca deportiva?')
+    night_bar = forms.BooleanField(required=None, label='¿Desea visitar un bar o discoteca?')
+    has_lodging = forms.BooleanField(required=None, label='¿Necesita hospedaje en el destino turístico?')
