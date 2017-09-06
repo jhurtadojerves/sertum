@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Crear Centro Turístico
+    Encuesta de Centros Turísticos
 {% endblock title %}
 
 {% block content %}
@@ -9,8 +9,51 @@
 <div class="mui-container-fluid">
 
     <form class="mui-form" action="" method="post"> {% csrf_token %}
-      {{ form.as_p }}
-        <button type="submit" class="mui-btn mui-btn--raised">Buscar Centro</button>
+
+
+
+        <legend>Encuesta de Centros Turísticos</legend>
+        <div class="mui-textfield mui-textfield--float-label">
+            <b>Grupo de Personas: </b><i>Presionar CTRL para más de una opción</i><br><br>
+            {{ form.group_type.errors }}
+            {% for option in form.group_type %}
+                {{ option }}
+            {% endfor %}
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+            <b>Actividades y Servicios: </b><i>Presionar CTRL para más de una opción</i><br><br>
+            {{ form.activity.errors }}
+            {% for option in form.activity %}
+                {{ option }}
+            {% endfor %}
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+            <b>Formas de transporte: </b><i>Presionar CTRL para más de una opción</i><br><br>
+            {{ form.transport.errors }}
+            {% for option in form.transport %}
+                {{ option }}
+            {% endfor %}
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+            <b>Tipo de Comida: </b><i>Presionar CTRL para más de una opción</i><br><br>
+            {{ form.food.errors }}
+            {% for option in form.food %}
+                {{ option }}
+            {% endfor %}
+        </div>
+
+        <div class="mui-textfield mui-textfield--float-label">
+
+            {{ form.money_per_people.errors }}
+            {{ form.money_per_people }}
+        <label><b>Presupuesto por persona </b></label>
+      </div>
+
+
+        <button type="submit" class="mui-btn mui-btn--raised">Enviar</button>
     </form>
 
 

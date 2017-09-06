@@ -20,6 +20,7 @@ class Center(models.Model):
     geolocation = map_fields.GeoLocationField(max_length=100)
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
     user = models.OneToOneField(User, unique=True, null=True)
+    free = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -109,19 +110,6 @@ class Knowledge(models.Model):
 
     # 5
     food = models.ManyToManyField(FoodForKnowledge)
-
-    # 6
-    extreme_sport = models.BooleanField(default=False)
-
-    # 7
-    sport_fishing = models.BooleanField(default=False)
-
-    # 8
-    night_bar = models.BooleanField(default=True)
-
-    # 9
-    has_lodging = models.BooleanField(default=False)
-
 
 class Poll(models.Model):
     user = models.ForeignKey(User, null=True)

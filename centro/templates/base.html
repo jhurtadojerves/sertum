@@ -17,6 +17,7 @@
     <script src="//cdn.muicss.com/mui-0.9.9-rc1/js/mui.js"></script>
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="{% static 'fonts/font-awesome.min.css'%}" type="text/css" media="screen">
+
     <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
     <link href="{% static 'css/material.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/ripples.min.css' %}" rel="stylesheet">
@@ -36,7 +37,8 @@
         <a class="navbar-brand logo-right" href="javascript:void(0)"><i class="mdi-image-timelapse"></i>SERTUM</a>
       </div>
         <ul class="nav navbar-nav main-navigation">
-          <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
+            <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
+            <li><a href="{% url 'Center:home_free' %}">Destinos Gratuitos</a></li>
 
 
             {% if request.user.is_authenticated %}
@@ -94,9 +96,10 @@
         </div>        
         <div class="contents text-right">
           <h1 class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms">Recomendación Turísticas del Cantón Morona</h1>
-          <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">Material Design Inspired HTML5 Bootstrap Template for Business and App</p>
+          <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">Sistema Experto para Recomendación de Destinos Turísticos</p>
 
-        </div>   
+        </div>
+      </div>
     </header>
 
     <section id="features" class="section">
@@ -131,15 +134,16 @@
       <div class="container">
         <div class="row">
           <div class="col-md-6 wow fadeInLeft" data-wow-duration="1000ms" data-wow-delay="300ms">
-            <h2 class="section-title">That's Where We Are</h2>
+            <h2 class="section-title">Acerca de los Desarrolladores</h2>
             <div class="row">
               <div class="col-md-6 col-sm-6">
                 <div class="info">
                   <div class="icon">
                     <i class="mdi-maps-map"></i>
                   </div>
-                  <h4>Ubicación</h4>
-                  <p>Macas, Morona Santiago, Ecuador</p>
+                  <h4>Desarrolladores</h4>
+                  <p>Julio Hurtado Jerves</p>
+                  <p>Brayan Zabala Bustamante</p>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6">
@@ -148,7 +152,8 @@
                     <i class="mdi-content-mail"></i>
                   </div>
                   <h4>Email</h4>
-                  <p>me@juliohurtado.me</p>
+                  <p>juliens@outlook.com</p>
+                  <p>brayanjesus@outlook.com</p>
                 </div>
               </div>
               <div class="clear"></div>
@@ -159,6 +164,7 @@
                   </div>
                   <h4>Teléfono</h4>
                   <p>+59997217282</p>
+                  <p>+59997217282</p>
                 </div>
               </div>
               <div class="col-md-6 col-sm-6">
@@ -166,8 +172,9 @@
                   <div class="icon">
                     <i class="mdi-action-thumb-up"></i>
                   </div>
-                  <h4>Redes Socailes</h4>
+                  <h4>Redes Sociales</h4>
                   <p>@jhurtadojerves</p>
+                  <p>@brayanjesus</p>
                 </div>
               </div>
             </div>
@@ -182,55 +189,36 @@
         <div class="container">
           <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <h3>Products</h3>
+              <h3>Portafolio</h3>
               <ul>
-                <li><a href="http://wingthemes.com/">WingThemes</a>
+                <li><a href="https://ilvermorny.es/">Ilvermorny.es</a>
                 </li>
-                <li><a href="http://graygrids.com/">Graygrids</a>
-                </li>
-                <li><a href="http://wpbean.com/">WPBean</a>
-                </li>
-                <li><a href="http://landingbow.com/">Landingbow</a>
-                </li>
-                <li><a href="http://freebiescircle.com/">FreebiesCicle</a>
-                </li>               
-              </ul>
-            </div>
-            <div class="col-md-3 col-sm-6 col-xs-12">
-              <h3>FAQs</h3>
-              <ul>
-                <li><a href="#">Why choose us?</a>
-                </li>
-                <li><a href="#">Where we are?</a>
-                </li>
-                <li><a href="#">Fees</a>
-                </li>
-                <li><a href="#">Guarantee</a>
-                </li>
-                <li><a href="#">Discount</a>
+                <li><a href="https://juliens.ilvermorny.es/">Blog de Juliens</a>
                 </li>
               </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <h3>About</h3>
+              <h3>Patrocinadores</h3>
               <ul>
-                <li><a href="#">Career</a>
+                <li><a href="#">Municipio de Morona</a>
                 </li>
-                <li><a href="#">Partners</a>
-                </li>
-                <li><a href="#">Team</a>
-                </li>
-                <li><a href="#">Clients</a>
-                </li>
-                <li><a href="#">Contact</a>
+                <li><a href="#">ESPOCH Morona Santiago</a>
                 </li>
               </ul>
             </div>
             <div class="col-md-3 col-sm-6 col-xs-12">
-              <h3>Find us on</h3>
-              <a class="social" href="#" target="_blank"><i class="fa fa-facebook"></i></a>
-              <a class="social" href="#" target="_blank"><i class="fa fa-twitter"></i></a>
-              <a class="social" href="#" target="_blank"><i class="fa fa-google-plus"></i></a>
+              <h3></h3>
+              <ul>
+                <li><a href="#"></a>
+                </li>
+
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+              <h3>Búscanos en</h3>
+              <a class="social" href="https://www.facebook.com/JulioHurtadoJerves/" target="_blank"><i class="fa fa-facebook"></i></a>
+              <a class="social" href="https://twitter.com/juliohurtadojer" target="_blank"><i class="fa fa-twitter"></i></a>
+              <a class="social" href="https://plus.google.com/u/0/+JulioHurtado1208" target="_blank"><i class="fa fa-google-plus"></i></a>
             </div>
           </div>
         </div>  
@@ -246,7 +234,7 @@
         <div class="row">
           <div class="col-md-12">
             <p class="copyright-text">
-             © Pluto 2015 Frontend right reserved.
+             © ESPOCH & GAD Morona Backend right reserved.
             </p>
           </div>
         </div>

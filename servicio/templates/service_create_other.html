@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ center_view.name }} - Crear Servicio
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+
+
+    {% if verification %}
+    {% else %}
+
+
+
+    <form class="mui-form" action="" method="post"> {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
+    </form>
+    {% endif %}
+</div>
+
+{% endblock %}
+

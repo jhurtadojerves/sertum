@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load app_filters %}
+
+{% block title %}
+    Destinos Turísticos del Cantón Morona
+{% endblock title %}
+
+{% block content_title %}
+    Agregados Recientemente
+{% endblock %}
+
+
+{% block content %}
+    {% for key, value in services.items %}
+        <div class="col-md-4 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+            <div class="features">
+
+                <div class="icon">
+
+                </div>
+
+                <div class="features-text">
+                    <h4><a href="{{ value }}"><i class="mdi-action-done-all"></i> {{ key }}</a> </h4>
+
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+

@@ -188,10 +188,10 @@ class PollForm(FormView):
             food = set(c.food.all().values_list('name'))
 
             money_per_person = c.money_per_person
-            extreme_sport = c.extreme_sport
-            sport_fishing = c.sport_fishing
-            night_bar = c.night_bar
-            has_lodging = c.has_lodging
+            #extreme_sport = c.extreme_sport
+            #sport_fishing = c.sport_fishing
+            #night_bar = c.night_bar
+            #has_lodging = c.has_lodging
 
             temp_g = groups & form_groups
             value += len(temp_g)
@@ -206,18 +206,6 @@ class PollForm(FormView):
             value += len(temp_f)
 
             if money_per_person <= form_money_per_person:
-                value += 1
-
-            if extreme_sport and form_extreme_sport:
-                value += 1
-
-            if sport_fishing and form_sport_fishing:
-                value += 1
-
-            if night_bar and form_night_bar:
-                value += 1
-
-            if has_lodging and form_has_lodging:
                 value += 1
 
             centervalue.append((center, value))
@@ -293,3 +281,6 @@ class PollResult(DetailView):
         context['existe'] = True
         context['pictures'] = Picture.objects.filter(center__slug=self.get_object().center.slug)
         return context
+
+
+

@@ -16,31 +16,25 @@
 
     <form class="mui-form" action="" method="post"> {% csrf_token %}
 
+    <b style="color:red;">{{ form.non_field_errors }}</b>
+
     <div class="mui-textfield mui-textfield--float-label">
-      {{ form.name.errors }}
-    <textarea cols="40" id="id_name" name="name" rows="10" required>
-        {% if form.name.value != None %}
-            {{ form.name.value }}
-        {% endif %}
-    </textarea>
-    <label>Nombre del Servicio</label>
+        <b>Nombre: </b><br>
+        <b style="color:red;">{{ form.name.errors }}</b>
+        {% for name in form.name %}
+            {{ name }}
+        {% endfor %}
     </div>
 
     <div class="mui-textfield mui-textfield--float-label">
-        {{ form.cost.errors }}
-        <input id="id_cost" name="cost" step="0.01" type="number" required value=" {% if form.cost.value != None %}
-                {{ form.cost.value }}
-        {% endif %}">
+        <b style="color:red;">{{ form.cost.errors }}</b>
+        <input id="id_cost" name="cost" step="0.01" type="number" required value="{% if form.cost.value != 0.0 %}{{ form.cost.value }}{% endif %}">
         <label>Valor del Servicio</label>
     </div>
 
     <div class="mui-textfield mui-textfield--float-label">
-      {{ form.observation.errors }}
-    <textarea cols="40" id="id_observation" name="observation" rows="10" required>
-        {% if form.observation.value != None %}
-            {{ form.observation.value }}
-        {% endif %}
-    </textarea>
+      <b style="color:red;">{{ form.observation.errors }}</b>
+    <textarea cols="40" id="id_observation" name="observation" rows="10" required>{% if form.observation.value != " " %}{{ form.observation.value }}{% endif %}</textarea>
     <label>Observación</label>
     </div>
 
