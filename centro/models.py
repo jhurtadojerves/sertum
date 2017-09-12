@@ -7,6 +7,7 @@ from autoslug import AutoSlugField
 from django_google_maps import fields as map_fields
 from django.core.validators import MinValueValidator, MaxValueValidator
 from usuario.models import User
+from servicio.models import Service
 
 from multiselectfield import MultiSelectField
 
@@ -21,6 +22,7 @@ class Center(models.Model):
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
     user = models.OneToOneField(User, unique=True, null=True)
     free = models.BooleanField(default=False)
+    service = models.ManyToManyField(Service, through='ServiceCenter')
 
     def __str__(self):
         return self.name
@@ -60,6 +62,7 @@ class TransportForKnowledge(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Knowledge(models.Model):
     center = models.ForeignKey(Center, unique=True)
@@ -111,8 +114,24 @@ class Knowledge(models.Model):
     # 5
     food = models.ManyToManyField(FoodForKnowledge)
 
+
 class Poll(models.Model):
     user = models.ForeignKey(User, null=True)
     center = models.ForeignKey(Center, null=True)
     value = models.PositiveIntegerField(null=True)
     date = models.DateTimeField(auto_now_add=True)
+
+
+class ServiceCenter(models.Model):
+    center = models.ForeignKey(Center)
+    service = models.ForeignKey(Service)
+
+    cost = models.DecimalField(max_digits=10,
+                               decimal_places=2,
+                               blank=False,
+                               default=00.00)
+    observation = models.TextField(blank=False,
+                                   default=" ")
+
+    def __str__(self):
+        return self.service.name

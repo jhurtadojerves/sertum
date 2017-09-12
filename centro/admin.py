@@ -1,5 +1,5 @@
 from django.contrib import admin
-from centro.models import Center, Picture, Knowledge, Poll, ActivityForKnowledge, FoodForKnowledge, GroupTypeForKnowledge, TransportForKnowledge
+from centro.models import Center, ServiceCenter, Picture, Knowledge, Poll, ActivityForKnowledge, FoodForKnowledge, GroupTypeForKnowledge, TransportForKnowledge
 from servicio.models import Service
 from django.forms.widgets import TextInput
 
@@ -11,10 +11,18 @@ from django_google_maps.fields import AddressField, GeoLocationField
 
 class PictureInline(admin.TabularInline):
     model = Picture
+    extra = 1
 
 
 class ServiceInline(admin.TabularInline):
     model = Service
+
+
+class ServiceCenterInline(admin.TabularInline):
+    model = ServiceCenter
+    raw_id_fields = ('service',)
+    extra = 1
+
 
 
 @admin.register(Center)
@@ -25,6 +33,7 @@ class AdminCenter(admin.ModelAdmin):
     }
     inlines =[
         PictureInline,
+        ServiceCenterInline,
     ]
 
     list_editable = ['user',]

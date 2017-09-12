@@ -4,7 +4,7 @@ from django.views.generic import CreateView, ListView, TemplateView
 
 from .models import Service
 from usuario.models import User as Usuario
-from centro.models import Center
+from centro.models import Center, ServiceCenter
 
 from django.urls import reverse, reverse_lazy
 
@@ -12,12 +12,11 @@ from django.urls import reverse, reverse_lazy
 
 
 class CreateServiceView(CreateView):
-    model = Service
+    model = ServiceCenter
     template_name = "service_create.html"
     context_object_name = "service"
-    fields = ['name', 'center', 'cost', 'observation', ]
+    fields = ['service', 'center', 'cost', 'observation', ]
     success_url = "/"
-
 
     def get_context_data(self, **kwargs):
         context = super(CreateServiceView, self).get_context_data(**kwargs)
@@ -35,11 +34,11 @@ class CreateServiceView(CreateView):
 
         return context
 
-
     def get_form(self):
         form = super(CreateServiceView, self).get_form()
-        form.fields['name'].widget.attrs.update({'class': 'form-control'})
+        form.fields['service'].widget.attrs.update({'class': 'form-control'})
         return form
+
 
 class ListServiceView(TemplateView):
     template_name = "service_list.html"
@@ -83,6 +82,7 @@ class ListServiceView(TemplateView):
             context['verification'] = True
 
         return context
+
 
 class ListServiceViewFilter(ListView):
     model = Service

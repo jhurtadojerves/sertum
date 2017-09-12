@@ -142,7 +142,7 @@ class PictureAdd(PermissionRequiredMixin, FormView):
 
 
 class PollForm(FormView):
-    template_name = "poll_form.html"
+    template_name = "poll_form_2.html"
     form_class = KnowledgePollForm
     success_url = reverse_lazy('Center:encuesta_resultado')
 

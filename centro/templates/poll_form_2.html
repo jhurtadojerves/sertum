@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Encuesta de Centros Turísticos
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+
+    <form class="mui-form" action="" method="post"> {% csrf_token %}
+
+
+
+        <h1>Encuesta de Centros Turísticos</h1>
+        {% for field in form %}
+        <div class="mui-textfield mui-textfield--float-label">
+            <h2>{{ field.label }}</h2>
+            {{ field }}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="mui-btn mui-btn--raised">Enviar</button>
+    </form>
+
+
+    </div>
+
+{% endblock %}
+

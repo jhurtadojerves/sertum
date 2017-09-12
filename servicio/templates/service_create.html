@@ -18,6 +18,17 @@
 
     <b style="color:red;">{{ form.non_field_errors }}</b>
 
+
+    <legend>Encuesta de Centros Turísticos</legend>
+    <div class="mui-textfield mui-textfield--float-label">
+        <b>Nombre: </b><br>
+        {{ form.service.errors }}
+        {% for ser in form.service %}
+            {{ ser }}
+        {% endfor %}
+    </div>
+
+
     <div class="mui-textfield mui-textfield--float-label">
         <b>Nombre: </b><br>
         <b style="color:red;">{{ form.name.errors }}</b>

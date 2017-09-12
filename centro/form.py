@@ -25,14 +25,14 @@ class PictureAddForm(forms.Form):
 
 
 class KnowledgePollForm(forms.Form):
-    group_type = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': 'form-control'}),
-                                                queryset=GroupTypeForKnowledge.objects.all(), label='Grupo de Personas', required=True)
-    activity = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': 'form-control', 'style':'height:200px'}),
+    group_type = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
+                                                queryset=GroupTypeForKnowledge.objects.all(), required=True)
+    activity = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
                                               queryset=ActivityForKnowledge.objects.all(), required=True,
                                               label='Actividades que desea desarrollar')
-    transport = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': 'form-control'}), queryset=TransportForKnowledge.objects.all(), required=True,
+    transport = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=TransportForKnowledge.objects.all(), required=True,
                                                label='Método de transporte preferido')
-    food = forms.ModelMultipleChoiceField(widget=forms.SelectMultiple(attrs={'class': 'form-control'}), queryset=FoodForKnowledge.objects.all(),
+    food = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=FoodForKnowledge.objects.all(),
                                   required=True, label='Comida preferida')
     money_per_people = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True,
                                           label='Dinero máximo por persona')
