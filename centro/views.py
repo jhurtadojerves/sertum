@@ -4,7 +4,7 @@ from django.views.generic import DetailView, CreateView, UpdateView, ListView, F
 
 from .models import Center, Picture, Knowledge, Poll
 from usuario.models import User as Usuario
-from .form import CenterCreateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm
+from .form import CenterCreateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm, KnowledgeCreate
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import permission_required
@@ -283,4 +283,37 @@ class PollResult(DetailView):
         return context
 
 
+class CreateKnowledge(CreateView):
+    model = Knowledge
+    template_name = "knowledge_create.html"
+    form_class = KnowledgeCreate
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateKnowledge, self).get_context_data(**kwargs)
+        context['request'] = self.request
+        if self.request.user.is_authenticated():
+            user = Usuario.objects.filter(user=self.request.user)
+            center = Center.objects.filter(user=user)
+
+            if center.exists():
+                context['verification'] = False
+                context['center_view'] = Center.objects.get(user=user)
+                knowledge = Knowledge.objects.filter(center = Center.objects.get(user=user))
+                if knowledge.exists():
+                    context['knowledge'] = True
+            else:
+                context['verification'] = True
+        else:
+            context['verification'] = True
+
+        return context
+
+    def form_valid(self, form):
+        user = Usuario.objects.get(user=self.request.user)
+        center = Center.objects.get(user=user)
+        form.instance.center = center
+        form.save()
+        return super(CreateKnowledge, self).form_valid(form)
+
+    def get_success_url(self):
+        return reverse('Center:center_detail', args=[self.kwargs['slug']])

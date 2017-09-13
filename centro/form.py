@@ -40,3 +40,22 @@ class KnowledgePollForm(forms.Form):
     #sport_fishing = forms.BooleanField(required=None, label='¿Desea realizar pesca deportiva?')
     #night_bar = forms.BooleanField(required=None, label='¿Desea visitar un bar o discoteca?')
     #has_lodging = forms.BooleanField(required=None, label='¿Necesita hospedaje en el destino turístico?')
+
+
+class KnowledgeCreate(ModelForm):
+    class Meta:
+        model = Knowledge
+        fields = ('group_type', 'money_per_person', 'activities', 'transport', 'food', )
+        widgets = {
+            'group_type': forms.CheckboxSelectMultiple(),
+            'activities': forms.CheckboxSelectMultiple(),
+            'transport': forms.CheckboxSelectMultiple(),
+            'food': forms.CheckboxSelectMultiple(),
+        }
+        labels = {
+            'group_type': 'Grupo de personas que pueden visitar el Destino',
+            'money_per_person': 'Gasto aproximado de una persona',
+            'activities': 'Actividades que se pueden realizar',
+            'transport': 'Medio de Transporte disponible',
+            'food': 'Tipo de comida que ofrece',
+        }

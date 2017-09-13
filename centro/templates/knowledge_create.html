@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Crear Conocimiento
+{% endblock title %}
+
+{% block content %}
+
+<div class="mui-container-fluid">
+
+    {% if verification %}
+    {% else %}
+
+        {% if knowledge %}
+
+
+        {% else %}
+            <form class="mui-form" action="" method="post"> {% csrf_token %}
+
+
+
+                <h1>Definir el Conocimiento</h1>
+                {% for field in form %}
+                    <div class="mui-textfield mui-textfield--float-label">
+                        <h2>{{ field.label }}</h2><b style="color:red;">{{ field.errors }}</b><br>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+
+                <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
+            </form>
+        {% endif %}
+    {% endif %}
+
+
+    </div>
+
+{% endblock %}
+
