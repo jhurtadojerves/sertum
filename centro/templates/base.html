@@ -38,16 +38,22 @@
       </div>
         <ul class="nav navbar-nav main-navigation">
             <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
+            {% if not perms.usuario.add_center %}
             <li><a href="{% url 'Center:home_free' %}">Destinos Gratuitos</a></li>
-        <li><a href="/servicios/">Servicios</a></li>
+            <li><a href="{% url 'Service:service_list' %}">Servicios</a></li>
+            {% endif %}
 
 
             {% if request.user.is_authenticated %}
-                <li><a href="{% url 'Center:encuesta' %}">Elegir Destino</a></li>
+                {% if not perms.usuario.add_center %}
+                    <li><a href="{% url 'Center:encuesta' %}">Elegir Destino</a></li>
+                {% endif %}
                 {% if verification %}
-                    <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
+                    {% if perms.usuario.add_center %}
+                        <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
+                    {% endif %}
                 {% else %}
-                    <li><a href="{% url 'Center:center_detail' center_view.slug %}">Ver Destino</a></li>
+                    <li><a href="{% url 'Center:center_detail' center_view.slug %}">{{ center_view.name }}</a></li>
                     <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
                     <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
                 {% endif %}
