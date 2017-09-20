@@ -130,8 +130,7 @@ class ServiceCenter(models.Model):
                                decimal_places=2,
                                blank=False,
                                default=00.00)
-    observation = models.TextField(blank=False,
-                                   default=" ")
+    observation = models.TextField(blank=True)
 
     def __str__(self):
         return self.service.name

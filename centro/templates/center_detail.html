@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load app_filters %}
 {% block title %}
     {{ center.name }}
 {% endblock title %}
@@ -25,7 +25,28 @@
                   {{ center.aditional_information|linebreaksbr }}
                 </p>
 
+                {% if center.id|servicesMTM %}
+                    <br><br><br><br><div class="table-responsive" style="max-width: 60%; margin: auto auto;">
+                        <br><h3 style="text-align: center;"><b>Servicios </b></h3><br><br>
+                        <!-- Table -->
+                      <table class="table">
+                        <tr align="center">
+                            <td><b>Servicio</b></td>
+                            <td><b>Precio</b></td>
+                            <td><b>Información Adicional</b></td>
+                        </tr>
+                          {% for service in center.id|servicesMTM %}
+                              <tr align="center">
+                                  <td>{{ service.service.name }}</td>
+                                  <td>{{ service.cost }}</td>
+                                  <td>{{ service.observation }}</td>
+                              </tr>
+                          {% endfor %}
+                      </table>
 
+
+                    </div>
+              {% endif %}
 
               </div>
             </div>

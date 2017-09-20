@@ -11,7 +11,7 @@
 
 
 {% block content %}
-    {% for service in services %}
+    {% for center in centers %}
         <div class="col-md-4 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
             <div class="features">
 
@@ -20,16 +20,16 @@
                 </div>
 
                 <div class="features-text">
-                    <h4><a href="{% url 'Center:center_detail' service.center.slug %}"><i class="mdi-action-done-all"></i> {{ service.center.name }}</a> </h4>
-                    <p>
-                        {{ service.center.aditional_information|linebreaksbr }}
+                    <h4><a href="{% url 'Center:center_detail' center.slug %}"><i class="mdi-action-done-all"></i> {{ center.name }}</a> </h4>
+                    <p style="text-align : justify;">
+                        {{ center.aditional_information|linebreaksbr }}
                     </p>
-
+                    <br>
                     <p>
-                        {% if service.center.id|services %}
+                        {% if center.id|services %}
                             <b>Servicios: </b><br>
-                            {% for ser in service.center.id|services %}
-                               <i class="fa fa-tag" aria-hidden="true"></i> {{ ser.name }} <br>
+                            {% for ser in center.id|services %}
+                               <i class="fa fa-thumb-tack" aria-hidden="true"></i> {{ ser.name }} <br>
                             {% endfor %}
                         {% endif %}
 

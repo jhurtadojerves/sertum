@@ -40,35 +40,14 @@ class CreateServiceView(CreateView):
         return form
 
 
-class ListServiceView(TemplateView):
+class ListServiceView(ListView):
+    model = Service
     template_name = "service_list.html"
+    context_object_name = 'services'
 
     def get_context_data(self, **kwargs):
         context = super(ListServiceView, self).get_context_data(**kwargs)
         context['request'] = self.request
-
-        services = {
-            'Piscinas': 'piscinas',
-            'Balneario': 'balneario',
-            'Mirador': 'mirador',
-            'Senderismo': 'senderismo',
-            'Canchas Deportivas': 'canchas-deportivas',
-            'Mirador': 'mirador',
-            'Bar Nocturno': 'bar-nocturno',
-            'Alojamiento': 'alojamiento',
-            'Restaurante': 'restaurante',
-            'Cabañas': 'cabanas',
-            'Asadero': 'asadero',
-            'Pesca Deportiva': 'pesca-deportiva',
-            'Servicios Culturales': 'servicios-culturales',
-            'Dique': 'dique',
-            'Canotaje': 'canotaje',
-            'Rafting': 'rafting',
-            'Canopy': 'Canopy',
-        }
-
-        context['services'] = services
-
 
         if self.request.user.is_authenticated():
             user = Usuario.objects.filter(user=self.request.user)
@@ -85,10 +64,9 @@ class ListServiceView(TemplateView):
 
 
 class ListServiceViewFilter(ListView):
-    model = Service
+    model = Center
     template_name = "center_list_by_service.html"
-    context_object_name = "services"
-
+    context_object_name = "centers"
 
     def get_context_data(self, **kwargs):
         context = super(ListServiceViewFilter, self).get_context_data(**kwargs)
@@ -109,4 +87,4 @@ class ListServiceViewFilter(ListView):
 
     def get_queryset(self):
         qs = super(ListServiceViewFilter, self).get_queryset()
-        return qs.filter(slug=self.kwargs['slug'])
+        return qs.filter(service__slug=self.kwargs['slug']).distinct()

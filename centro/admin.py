@@ -11,23 +11,24 @@ from django_google_maps.fields import AddressField, GeoLocationField
 
 class PictureInline(admin.TabularInline):
     model = Picture
-    extra = 1
+    extra = 0
 
 
 class ServiceInline(admin.TabularInline):
     model = Service
+    extra = 0
 
 
 class ServiceCenterInline(admin.TabularInline):
     model = ServiceCenter
     raw_id_fields = ('service',)
-    extra = 1
+    extra = 0
 
 
 
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
-    list_display = ['id', 'name', 'slug', 'user', 'addres', ]
+    list_display = ['id', 'name', 'slug', 'user', 'addres', 'free']
     formfield_overrides = {
         AddressField: {'widget': GoogleMapsAddressWidget},
     }

@@ -21,15 +21,15 @@
 
                 <div class="features-text">
                     <h4><a href="{% url 'Center:center_detail' center.slug %}"><i class="mdi-action-done-all"></i> {{ center.name }}</a> </h4>
-                    <p>
+                    <p style="text-align : justify;">
                         {{ center.aditional_information|linebreaksbr }}
                     </p>
-
+                    <br>
                     <p>
                         {% if center.id|services %}
                             <b>Servicios: </b><br>
                             {% for service in center.id|services %}
-                               <i class="fa fa-tag" aria-hidden="true"></i> {{ service.name }} <br>
+                               <i class="fa fa-thumb-tack" aria-hidden="true"></i> {{ service.name }} <br>
                             {% endfor %}
                         {% endif %}
 

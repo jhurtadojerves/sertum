@@ -11,7 +11,7 @@
 
 
 {% block content %}
-    {% for key, value in services.items %}
+    {% for service in services %}
         <div class="col-md-4 col-sm-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
             <div class="features">
 
@@ -20,7 +20,7 @@
                 </div>
 
                 <div class="features-text">
-                    <h4><a href="{{ value }}"><i class="mdi-action-done-all"></i> {{ key }}</a> </h4>
+                    <h4><a href="{{ service.slug }}"><i class="mdi-action-done-all"></i> {{ service.name }}</a> </h4>
 
                 </div>
 
