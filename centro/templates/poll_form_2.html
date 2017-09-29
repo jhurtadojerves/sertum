@@ -10,12 +10,17 @@
 
     <form class="mui-form" action="" method="post"> {% csrf_token %}
 
-
-
         <h1>Encuesta de Centros Turísticos</h1>
         {% for field in form %}
         <div class="mui-textfield mui-textfield--float-label">
             <h2>{{ field.label }}</h2>
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             {{ field }}
         </div>
         {% endfor %}

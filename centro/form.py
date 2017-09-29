@@ -26,7 +26,7 @@ class PictureAddForm(forms.Form):
 
 class KnowledgePollForm(forms.Form):
     group_type = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
-                                                queryset=GroupTypeForKnowledge.objects.all(), required=True)
+                                                queryset=GroupTypeForKnowledge.objects.all(), label='Conformación del grupo de Turistas', required=True)
     activity = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(),
                                               queryset=ActivityForKnowledge.objects.all(), required=True,
                                               label='Actividades que desea desarrollar')

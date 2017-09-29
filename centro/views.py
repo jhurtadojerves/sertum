@@ -176,7 +176,7 @@ class PollForm(FormView):
         form_has_lodging = form.cleaned_data.get('has_lodging')
 
         centers = Knowledge.objects.all()
-        #centers = Knowledge.objects.filter(id=16)
+
         centervalue = list()
         for c in centers:
             value = 0
@@ -188,12 +188,9 @@ class PollForm(FormView):
             food = set(c.food.all().values_list('name'))
 
             money_per_person = c.money_per_person
-            #extreme_sport = c.extreme_sport
-            #sport_fishing = c.sport_fishing
-            #night_bar = c.night_bar
-            #has_lodging = c.has_lodging
 
             temp_g = groups & form_groups
+            #comprobar(form, conocimiento) -> 3
             value += len(temp_g)
 
             temp_a = activities & form_activities
@@ -210,6 +207,8 @@ class PollForm(FormView):
 
             centervalue.append((center, value))
 
+
+
         centervalue.sort(key=lambda x: x[1])
 
         selectedcenter = centervalue.pop()
@@ -221,42 +220,6 @@ class PollForm(FormView):
         poll.user = Usuario.objects.get(user=self.request.user)
         poll.save()
         return HttpResponseRedirect(reverse('Center:encuesta_resultado', args=[poll.id]))
-
-
-    '''
-    def post(self, request, *args, **kwargs):
-
-        form = self.form_class(self.request.POST or None)
-
-
-        centers = Knowledge.objects.all()
-        lista = list()
-        for c in centers:
-            value = 0
-            center = c.center
-            groups = c.group_type.all().values_list('name')
-            money_per_person = c.money_per_person
-            activities = c.activities.all().values_list('name')
-            transport = c.transport.all().values_list('name')
-            food = c.food.all().values_list('name')
-            extreme_sport = c.extreme_sport
-            sport_fishing = c.sport_fishing
-            night_bar = c.night_bar
-            has_lodging = c.has_lodging
-
-            #form_groups = form.group_type
-            form_money_per_person = self.request.POST.money_per_people
-            form_activities = form.cleaned_data.get('activity').keys()
-            form_transport = form.cleaned_data.get('transport').keys()
-            form_food = form.cleaned_data.get('food').keys()
-            form_extreme_sport = form.extreme_sport
-            form_sport_fishing = form.sport_fishing
-            form_night_bar = form.night_bar
-            form_has_lodging = form.has_lodging
-
-
-        #return HttpResponseRedirect(str(1))
-'''
 
 
 class PollResult(DetailView):
