@@ -48,17 +48,19 @@
                 {% if not perms.usuario.add_center %}
                     <li><a href="{% url 'Center:encuesta' %}">Elegir Destino</a></li>
                 {% endif %}
-                {% if verification %}
+
+                {% if not user.profile.center %}
                     {% if perms.usuario.add_center %}
                         <li><a href="{% url 'Center:center_create' %}">Crear Destino</a></li>
                     {% endif %}
                 {% else %}
-                    <li><a href="{% url 'Center:center_detail' center_view.slug %}">{{ center_view.name }}</a></li>
+                    <li><a href="{% url 'Center:center_detail' user.profile.center.slug %}">{{ user.profile.center }}</a></li>
                     <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
                     <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
                 {% endif %}
 
-                {% if request.user.is_staff %}
+
+                {% if user.is_staff %}
                       <li><a href="{% url 'User:listar_sin_permisos' %}">Validar Usuarios</a></li>
                     <li><a href="/admin/">Administrar</a></li>
                 {% endif %}

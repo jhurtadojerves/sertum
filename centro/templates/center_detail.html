@@ -59,10 +59,10 @@
 
               </div>
               <div class="features-text" style="margin: auto auto; text-align: center;">
-                {% for picture in pictures %}
+                {% for picture in center.pictures.all %}
 
-                <a href="{% url 'ver_imagen' picture.picture %}">
-                    <img src="{% url 'ver_imagen' picture.picture %}" style="max-width: 200px; border-style:dotted;border-width:2px;">
+                <a href="{% url 'ver_imagen' picture.picture %}" title="{{ picture.description }}">
+                    <img src="{% url 'ver_imagen' picture.picture %}" alt="{{ picture.description }}" style="max-width: 200px; border-style:dotted;border-width:2px;">
                 </a>
 
                 {% endfor %}

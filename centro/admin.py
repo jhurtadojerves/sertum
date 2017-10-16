@@ -25,7 +25,6 @@ class ServiceCenterInline(admin.TabularInline):
     extra = 0
 
 
-
 @admin.register(Center)
 class AdminCenter(admin.ModelAdmin):
     list_display = ['id', 'name', 'slug', 'user', 'addres', 'free']
@@ -39,17 +38,24 @@ class AdminCenter(admin.ModelAdmin):
 
     list_editable = ['user',]
 
+
 @admin.register(Picture)
 class PictureAdmin(admin.ModelAdmin):
     list_display = [
         'id',
         'picture',
+        'description',
         'center',
     ]
+    list_editable = [
+        'description',
+    ]
+
 
 @admin.register(Knowledge)
 class KnowledgeAdmin(admin.ModelAdmin):
     list_display = ['id', 'center']
+
 
 @admin.register(Poll)
 class PollAdmin(admin.ModelAdmin):

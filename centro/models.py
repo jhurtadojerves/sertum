@@ -20,7 +20,7 @@ class Center(models.Model):
     aditional_information = models.TextField(blank=True, verbose_name='Place Description')
     geolocation = map_fields.GeoLocationField(max_length=100)
     slug = AutoSlugField(unique=True, populate_from='name', always_update=True)
-    user = models.OneToOneField(User, unique=True, null=True)
+    user = models.OneToOneField(User, unique=True, null=True, related_name='center')
     free = models.BooleanField(default=False)
     service = models.ManyToManyField(Service, through='ServiceCenter')
 
@@ -33,7 +33,8 @@ class Center(models.Model):
 
 class Picture(models.Model):
     picture = models.ImageField()
-    center = models.ForeignKey(Center)
+    center = models.ForeignKey(Center, related_name='pictures')
+    description = models.CharField(max_length=255)
 
 
 class ActivityForKnowledge(models.Model):
@@ -66,37 +67,7 @@ class TransportForKnowledge(models.Model):
 
 class Knowledge(models.Model):
     center = models.ForeignKey(Center, unique=True)
-
-    group_type_choices = (
-        ('0', 'Niños'),
-        ('1', 'Adultos'),
-        ('2', 'Adultos Mayores'),
-    )
-
-    activities_choices = (
-        ('0', 'Observación de Paisajes'),
-        ('1', 'Senderismo'),
-        ('2', 'Contacto con la Naturaleza'),
-        ('3', 'Visita Cultura'),
-        ('4', 'Piscinas, Canchas, etc'),
-        ('5', 'Canchas y Recreación')
-    )
-
-    transport_choices = (
-        ('1', 'Transporte Público'),
-        ('2', 'Transporte Privado'),
-    )
-
-    food_choices = (
-        ('0', 'Comida Típica'),
-        ('1', 'Platos a la Carta'),
-        ('2', 'Menú del día')
-    )
-
-    # 1 =>
     group_type = models.ManyToManyField(GroupTypeForKnowledge)
-
-    # 2 =>
     money_per_person = models.DecimalField(
         max_digits=8,
         decimal_places=2,
@@ -104,14 +75,8 @@ class Knowledge(models.Model):
             MinValueValidator(0),
         ]
     )
-
-    # 3 =>
     activities = models.ManyToManyField(ActivityForKnowledge)
-
-    # 4
     transport = models.ManyToManyField(TransportForKnowledge)
-
-    # 5
     food = models.ManyToManyField(FoodForKnowledge)
 
 

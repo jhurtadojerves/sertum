@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 # Create your models here.
 
 class User(models.Model):
-    user = models.OneToOneField(Usuario)
+    user = models.OneToOneField(Usuario, related_name='profile')
     has_add_center = models.BooleanField(default=False)
     reason_to_validate = models.TextField(blank=True)
 

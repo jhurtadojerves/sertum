@@ -41,12 +41,6 @@ class RegisterUserCreateView(CreateView):
     form_class = UsuarioForm
     success_url = reverse_lazy('Center:home')
 
-    def get_context_data(self, **kwargs):
-        context = super(RegisterUserCreateView, self).get_context_data(**kwargs)
-        context['verification'] = True
-        context['request'] = self.request
-        return context
-
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
         form = self.form_class(request.POST)
@@ -71,22 +65,6 @@ class ValidationUserListView(ListView):
         queryset = self.model.objects.filter(has_add_center = False)
         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super(ValidationUserListView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = True
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = False
-        else:
-            context['verification'] = True
-
-        return context
-
 
 class AddPermissionUpdateView(UpdateView):
     model = Profile
@@ -101,8 +79,7 @@ class AddPermissionUpdateView(UpdateView):
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
-        id = kwargs['pk']
-        profile = self.model.objects.get(id=id)
+        profile = self.model.objects.get(id=kwargs['pk'])
         form = self.form_class(request.POST, instance=profile)
 
         if form.is_valid():
@@ -117,21 +94,6 @@ class AddPermissionUpdateView(UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form))
 
-    def get_context_data(self, **kwargs):
-        context = super(AddPermissionUpdateView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = True
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = False
-        else:
-            context['verification'] = True
-
-        return context
 
 class UserLogin(FormView):
     model = User
@@ -139,7 +101,6 @@ class UserLogin(FormView):
     template_name = "login.html"
     success_url = reverse_lazy("Center:home")
     redirect_field_name = REDIRECT_FIELD_NAME
-
 
     @method_decorator(sensitive_post_parameters('password'))
     @method_decorator(csrf_protect)
@@ -158,25 +119,12 @@ class UserLogin(FormView):
 
         return super(UserLogin, self).form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context =  super(UserLogin, self).get_context_data(**kwargs)
+    def get_form(self):
+        form = super(UserLogin, self).get_form()
+        form.fields['username'].widget.attrs.update({'class': 'form-control'})
+        form.fields['password'].widget.attrs.update({'class': 'form-control'})
+        return form
 
-
-        context['request'] = self.request
-
-        if self.request.user.is_authenticated():
-            user = Profile.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-
-        return context
 
 class LogoutView(RedirectView):
     """

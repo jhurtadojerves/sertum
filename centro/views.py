@@ -26,26 +26,6 @@ class CenterDetailView(DetailView):
     slug_field = 'slug'
     context_object_name = 'center'
 
-    def get_context_data(self, **kwargs):
-        context =  super(CenterDetailView, self).get_context_data(**kwargs)
-        context['pictures'] = Picture.objects.filter(center__slug=self.object.slug)
-
-        context['request'] = self.request
-
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-
-        return context
-
 
 class CenterCreateView(CreateView):
     model = Center
@@ -56,22 +36,6 @@ class CenterCreateView(CreateView):
     @method_decorator(permission_required('usuario.add_center'))
     def dispatch(self, *args, **kwargs):
         return super(CenterCreateView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(CenterCreateView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-        return context
 
 
 class CenterUpdateView(UpdateView):
@@ -86,23 +50,6 @@ class CenterListView(ListView):
     model = Center
     template_name = 'center_list.html'
     context_object_name = 'centers'
-
-    def get_context_data(self, **kwargs):
-        context = super(CenterListView, self).get_context_data(**kwargs)
-        context['request'] = self.request
-
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-        return context
 
 
 class PictureAdd(PermissionRequiredMixin, FormView):
@@ -122,46 +69,12 @@ class PictureAdd(PermissionRequiredMixin, FormView):
                 picture_object = Picture(picture=picture, center=center)
                 picture_object.save()
                 return HttpResponseRedirect(reverse_lazy('Center:center_detail', kwargs={'slug': center.slug}))
-                #return HttpResponseRedirect(reverse_lazy('Center:home'))
-
-    def get_context_data(self, **kwargs):
-        context = super(PictureAdd, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user = self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = True
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = False
-        else:
-            context['verification'] = True
-
-        return context
 
 
 class PollForm(FormView):
     template_name = "poll_form_2.html"
     form_class = KnowledgePollForm
     success_url = reverse_lazy('Center:encuesta_resultado')
-
-
-    def get_context_data(self, **kwargs):
-        context = super(PollForm, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user=self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-        return context
 
     def form_valid(self, form):
         form_groups = set(form.cleaned_data.get('group_type').values_list('name'))
@@ -207,8 +120,6 @@ class PollForm(FormView):
 
             centervalue.append((center, value))
 
-
-
         centervalue.sort(key=lambda x: x[1])
 
         selectedcenter = centervalue.pop()
@@ -224,52 +135,14 @@ class PollForm(FormView):
 
 class PollResult(DetailView):
     model = Poll
-    template_name="poll_result.html"
+    template_name = "poll_result.html"
     context_object_name = 'poll'
-
-    def get_context_data(self, **kwargs):
-        context = super(PollResult, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user=self.request.user)
-            center = Center.objects.filter(user=user)
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-        context['existe'] = True
-        context['pictures'] = Picture.objects.filter(center__slug=self.get_object().center.slug)
-        return context
 
 
 class CreateKnowledge(CreateView):
     model = Knowledge
     template_name = "knowledge_create.html"
     form_class = KnowledgeCreate
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateKnowledge, self).get_context_data(**kwargs)
-        context['request'] = self.request
-        if self.request.user.is_authenticated():
-            user = Usuario.objects.filter(user=self.request.user)
-            center = Center.objects.filter(user=user)
-
-            if center.exists():
-                context['verification'] = False
-                context['center_view'] = Center.objects.get(user=user)
-                knowledge = Knowledge.objects.filter(center = Center.objects.get(user=user))
-                if knowledge.exists():
-                    context['knowledge'] = True
-            else:
-                context['verification'] = True
-        else:
-            context['verification'] = True
-
-        return context
 
     def form_valid(self, form):
         user = Usuario.objects.get(user=self.request.user)

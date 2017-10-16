@@ -8,7 +8,7 @@
 
 <div class="mui-container-fluid">
 
-    {% if verification %}
+    {% if not user.profile.center %}
 
     <form class="mui-form" action="" method="post"> {% csrf_token %}
       <legend>Crear Centro Turístico</legend>
@@ -62,7 +62,7 @@
 
     {% else %}
         <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">Solamente puede crear un centro turístico
-            <a  style="text-decoration: underline !important;" href="{% url 'Center:center_detail' center_view.slug %}">Ver Centro Turístico</a>  </div>
+            <a  style="text-decoration: underline !important;" href="{% url 'Center:center_detail' user.profile.center.slug %}">Ver Centro Turístico</a>  </div>
     {% endif %}
 
 
