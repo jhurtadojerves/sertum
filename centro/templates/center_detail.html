@@ -20,7 +20,13 @@
                 <i class="mdi-action-done-all"></i>
               </div>
               <div class="features-text">
-                <h4>{{ center.name }}</h4>
+                <h4>{{ center.name }}
+
+                {% if center.user == request.user.profile %}
+                    <a href="{% url 'Center:center_edit' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                {% endif %}
+                </h4>
+
                 <p style="text-align: justify;">
                   {{ center.aditional_information|linebreaksbr }}
                 </p>

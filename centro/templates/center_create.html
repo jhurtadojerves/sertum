@@ -10,55 +10,30 @@
 
     {% if not user.profile.center %}
 
-    <form class="mui-form" action="" method="post"> {% csrf_token %}
-      <legend>Crear Centro Turístico</legend>
-      <div class="mui-textfield mui-textfield--float-label">
-          {{ form.name.errors }}
-        <textarea cols="40" id="id_name" name="name" rows="10" required="">
-            {% if form.name.value != None %}
-                {{ form.name.value }}
-            {% endif %}
-        </textarea>
-        <label>Nombre del Centro Turístico</label>
-      </div>
+    <div class="mui-container-fluid">
+        <form class="mui-form" action="" method="post"> {% csrf_token %}
+            {{ form.non_field_errors }}
+            <legend>Actualizar Centro Turístico</legend>
 
+            {% for field in form %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-        <div class="mui-textfield mui-textfield--float-label">
-          {{ form.aditional_information.errors }}
-        <textarea cols="40" id="id_aditional_information" name="aditional_information" rows="10" required="">
-        {% if form.aditional_information.value != None %}
-                {{ form.aditional_information.value }}
-            {% endif %}
+                <div class="mui-textfield mui-textfield--float-label">
+                    {{ field }}
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                </div>
 
-        </textarea>
-        <label>Información Adicional</label>
-      </div>
+            {% endfor %}
 
-
-       <div class="mui-textfield mui-textfield--float-label">
-           {{ form.addres.errors }}
-        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{% if form.addres.value != None %}
-                {{ form.addres.value }}
-            {% endif %}">
-        <label>Dirección (Coordenadas) Ejemplo: -2.304061, -78.116023</label>
-      </div>
-
-
-      <div class="mui-textfield mui-textfield--float-label">
-{{ form.geolocation.errors }}
-          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="" value="{% if form.geolocation.value != None %}
-                {{ form.geolocation.value }}
-            {% endif %}">
-        <label>Geolocalización (Coordenadas) Ejemplo: -2.304061, -78.116023 </label>
-      </div>
-        <div class="mui-textfield mui-textfield--float-label" style="display: block !important;">
-        {{ form.user.errors }}
-            <select id="id_user" name="user" required="">
-            <option value="{{ request.user.id }}">{{ request.user.get_full_name }}</option>
-        </select>
-        </div>
-      <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
-    </form>
+            <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
+        </form>
+    </div>
 
     {% else %}
         <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">Solamente puede crear un centro turístico

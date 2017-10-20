@@ -11,7 +11,13 @@ from django import forms
 class CenterCreateForm(ModelForm):
     class Meta:
         model = Center
-        fields = ['name', 'addres', 'geolocation', 'user', 'aditional_information',]
+        fields = ['name', 'addres', 'aditional_information', ]
+
+
+class CenterUpdateForm(ModelForm):
+    class Meta:
+        model = Center
+        fields = ['name', 'addres', 'aditional_information', ]
 
 
 class PictureCreateForm(ModelForm):

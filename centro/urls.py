@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^gratuitos/$', CenterListView.as_view(queryset=Center.objects.filter(free=True), template_name = 'center_free_list.html'), name='home_free'),
     url(r'^destino/ver/(?P<slug>[-\w ]+)/$', CenterDetailView.as_view(), name='center_detail'),
     url(r'^destino/crear/$', CenterCreateView.as_view(), name='center_create'),
-    url(r'^destino/editar/(?P<slug>[-\w ]+)/$', CenterUpdateView .as_view(), name='center_edit'),
+    url(r'^destino/editar/$', CenterUpdateView.as_view(), name='center_edit'),
     url(r'^destino/ver/(?P<slug>[-\w ]+)/conocimiento/crear/$', CreateKnowledge .as_view(), name='knowledge_create'),
     url(r'^imagen/agregar/$', PictureAdd.as_view(), name='add_image'),
     url(r'^encuesta/$', PollForm.as_view(), name='encuesta'),

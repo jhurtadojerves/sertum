@@ -30,6 +30,10 @@ class Center(models.Model):
     def get_absolute_url(self):
         return reverse('Center:center_detail', args=[self.slug, ])
 
+    def save(self, *args, **kwargs):
+        self.geolocation = self.addres
+        super().save(*args, **kwargs)
+
 
 class Picture(models.Model):
     picture = models.ImageField()

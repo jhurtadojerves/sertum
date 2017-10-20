@@ -4,7 +4,7 @@ from django.views.generic import DetailView, CreateView, UpdateView, ListView, F
 
 from .models import Center, Picture, Knowledge, Poll
 from usuario.models import User as Usuario
-from .form import CenterCreateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm, KnowledgeCreate
+from .form import CenterCreateForm, CenterUpdateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm, KnowledgeCreate
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import permission_required
@@ -37,13 +37,22 @@ class CenterCreateView(CreateView):
     def dispatch(self, *args, **kwargs):
         return super(CenterCreateView, self).dispatch(*args, **kwargs)
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user.profile
+        form.save()
+        return super(CenterCreateView, self).form_valid(form)
+
 
 class CenterUpdateView(UpdateView):
     model = Center
     template_name = 'center_edit.html'
-    slug_field = 'slug'
-    form_class = CenterCreateForm
+
+    form_class = CenterUpdateForm
     context_object_name = 'center'
+
+    def get_object(self, queryset=None):
+        queryset = Center.objects.get(user=self.request.user.profile)
+        return queryset
 
 
 class CenterListView(ListView):

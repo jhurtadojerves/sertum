@@ -6,32 +6,27 @@
 
 {% block content %}
     <div class="mui-container-fluid">
-    <form class="mui-form" action="" method="post"> {% csrf_token %}
-      <legend>Crear Centro Turístico</legend>
-      <div class="mui-textfield mui-textfield--float-label">
-        <textarea cols="40" id="id_name" name="name" rows="10" required="">{{ center.name }}</textarea>
-        <label>Nombre del Centro Turístico</label>
-      </div>
-         <div class="mui-textfield mui-textfield--float-label">
-          {{ form.aditional_information.errors }}
-        <textarea cols="40" id="id_aditional_information" name="aditional_information" rows="10" required="">{{ form.aditional_information.value }}
+        <form class="mui-form" action="" method="post"> {% csrf_token %}
+            {{ form.non_field_errors }}
+            <legend>Actualizar Centro Turístico</legend>
 
-        </textarea>
-        <label>Información Adicional</label>
-      </div>
+            {% for field in form %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-       <div class="mui-textfield mui-textfield--float-label">
-        <input id="id_addres" maxlength="200" name="addres" type="text" required="" value="{{ center.addres }}">
-        <label>Dirección (Coordenadas)</label>
-      </div>
+                <div class="mui-textfield mui-textfield--float-label">
+                    {{ field }}
+                    <label for="{{ field.name }}">{{ field.label }}</label>
+                </div>
 
+            {% endfor %}
 
-      <div class="mui-textfield mui-textfield--float-label">
-
-          <input id="id_geolocation" maxlength="100" name="geolocation" type="text" required="" value="{{ center.addres }}">
-        <label>Geolocalización (Coordenadas)</label>
-      </div>
-      <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
-    </form>
+            <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
+        </form>
     </div>
 {% endblock %}
