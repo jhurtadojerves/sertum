@@ -70,7 +70,7 @@ class TransportForKnowledge(models.Model):
 
 
 class Knowledge(models.Model):
-    center = models.ForeignKey(Center, unique=True)
+    center = models.OneToOneField(Center, unique=True, null=True, related_name='knowledge')
     group_type = models.ManyToManyField(GroupTypeForKnowledge)
     money_per_person = models.DecimalField(
         max_digits=8,

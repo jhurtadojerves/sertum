@@ -148,7 +148,8 @@ class PollResult(DetailView):
     context_object_name = 'poll'
 
 
-class CreateKnowledge(CreateView):
+class CreateKnowledge(PermissionRequiredMixin, CreateView):
+    permission_required = "usuario.add_center"
     model = Knowledge
     template_name = "knowledge_create.html"
     form_class = KnowledgeCreate
@@ -161,4 +162,30 @@ class CreateKnowledge(CreateView):
         return super(CreateKnowledge, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse('Center:center_detail', args=[self.kwargs['slug']])
+        return reverse('Center:center_detail', args=[self.request.user.profile.center.slug])
+
+    def dispatch(self, request, *args, **kwargs):
+        if Knowledge.objects.filter(center=request.user.profile.center).exists():
+            return HttpResponseRedirect(reverse_lazy('Center:knowledge_update'))
+        else:
+            return super(CreateKnowledge, self).dispatch(request, *args, **kwargs)
+
+
+class UpdateKnowledge(PermissionRequiredMixin, UpdateView):
+    permission_required = "usuario.add_center"
+    model = Knowledge
+    template_name = "knowledge_update.html"
+    form_class = KnowledgeCreate
+
+    def get_object(self, queryset=None):
+        queryset = Knowledge.objects.get(center=self.request.user.profile.center)
+        return queryset
+
+    def dispatch(self, request, *args, **kwargs):
+        if not Knowledge.objects.filter(center=request.user.profile.center).exists():
+            return HttpResponseRedirect(reverse_lazy('Center:knowledge_create'))
+        else:
+            return super(UpdateKnowledge, self).dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse('Center:center_detail', args=[self.request.user.profile.center.slug])

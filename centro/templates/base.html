@@ -55,6 +55,7 @@
                     {% endif %}
                 {% else %}
                     <li><a href="{% url 'Center:center_detail' user.profile.center.slug %}">{{ user.profile.center }}</a></li>
+                    <li><a href="{% url 'Center:knowledge_create' %}">Gestionar Conocimiento</a></li>
                     <li><a href="{% url 'Service:service_create' %}">Crear Servicio</a></li>
                     <li><a href="{% url 'Center:add_image' %}">Agregar Imagen</a></li>
                 {% endif %}

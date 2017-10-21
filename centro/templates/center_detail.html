@@ -15,47 +15,46 @@
     </style>
 
     <div class="col-md-12 col-sm-12 wow fadeInDown">
-            <div class="features">
-              <div class="icon">
+        <div class="features">
+            <div class="icon">
                 <i class="mdi-action-done-all"></i>
-              </div>
-              <div class="features-text">
+            </div>
+            <div class="features-text">
                 <h4>{{ center.name }}
-
-                {% if center.user == request.user.profile %}
-                    <a href="{% url 'Center:center_edit' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-                {% endif %}
+                    {% if center.user == request.user.profile %}
+                        <a href="{% url 'Center:center_edit' %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                    {% endif %}
                 </h4>
 
                 <p style="text-align: justify;">
                   {{ center.aditional_information|linebreaksbr }}
                 </p>
 
-                {% if center.id|servicesMTM %}
-                    <br><br><br><br><div class="table-responsive" style="max-width: 60%; margin: auto auto;">
-                        <br><h3 style="text-align: center;"><b>Servicios </b></h3><br><br>
-                        <!-- Table -->
-                      <table class="table">
-                        <tr align="center">
-                            <td><b>Servicio</b></td>
-                            <td><b>Precio</b></td>
-                            <td><b>Información Adicional</b></td>
-                        </tr>
-                          {% for service in center.id|servicesMTM %}
-                              <tr align="center">
-                                  <td>{{ service.service.name }}</td>
-                                  <td>{{ service.cost }}</td>
-                                  <td>{{ service.observation }}</td>
-                              </tr>
-                          {% endfor %}
-                      </table>
+            {% if center.id|servicesMTM %}
+                <br><br><br><br><div class="table-responsive" style="max-width: 60%; margin: auto auto;">
+                    <br><h3 style="text-align: center;"><b>Servicios </b></h3><br><br>
+                    <!-- Table -->
+                  <table class="table">
+                    <tr align="center">
+                        <td><b>Servicio</b></td>
+                        <td><b>Precio</b></td>
+                        <td><b>Información Adicional</b></td>
+                    </tr>
+                      {% for service in center.id|servicesMTM %}
+                          <tr align="center">
+                              <td>{{ service.service.name }}</td>
+                              <td>{{ service.cost }}</td>
+                              <td>{{ service.observation }}</td>
+                          </tr>
+                      {% endfor %}
+                  </table>
 
 
-                    </div>
-              {% endif %}
+                </div>
+          {% endif %}
 
-              </div>
-            </div>
+          </div>
+        </div>
     </div>
 
     <div id="links" class="col-md-12 col-sm-12">

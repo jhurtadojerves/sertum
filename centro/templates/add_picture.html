@@ -18,7 +18,8 @@
     </form>
 
     {% else %}
-        <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">No tienes permisos para agregar imágenes a este destino turístico
+        <div class="alert alert-danger" role="alert" style="font-weight: bold; text-align: center; font-size: 1.5em;">Para agregar imágenes primero debes crear un
+            <a href="{% url 'Center:center_create' %}">destino turístico</a>
               </div>
     {% endif %}
 

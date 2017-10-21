@@ -13,6 +13,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.contrib.admin.views.decorators import staff_member_required
 
 
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
@@ -47,6 +48,12 @@ class RegisterUserCreateView(CreateView):
         if form.is_valid():
             user = form.save()
             profile = Profile.objects.get_or_create(user=user)
+
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(self.request, user)
+
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form))
