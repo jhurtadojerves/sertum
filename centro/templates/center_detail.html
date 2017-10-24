@@ -29,8 +29,8 @@
                 <p style="text-align: justify;">
                   {{ center.aditional_information|linebreaksbr }}
                 </p>
-
-            {% if center.id|servicesMTM %}
+            center.id|servicesMTM
+            {% if center.servicecenter_set.all %}
                 <br><br><br><br><div class="table-responsive" style="max-width: 60%; margin: auto auto;">
                     <br><h3 style="text-align: center;"><b>Servicios </b></h3><br><br>
                     <!-- Table -->
@@ -39,14 +39,24 @@
                         <td><b>Servicio</b></td>
                         <td><b>Precio</b></td>
                         <td><b>Información Adicional</b></td>
+                        {% if center.user == request.user.profile %}
+                            <td><b>Gestión</b></td>
+                        {% endif %}
                     </tr>
-                      {% for service in center.id|servicesMTM %}
-                          <tr align="center">
-                              <td>{{ service.service.name }}</td>
-                              <td>{{ service.cost }}</td>
-                              <td>{{ service.observation }}</td>
+                    {% for service in center.servicecenter_set.all %}
+                        <tr align="center">
+                            <td>{{ service }}</td>
+                            <td>{{ service.cost }}</td>
+                            <td>{{ service.observation }}</td>
+                                {% if center.user == request.user.profile %}
+                                    <td>
+                                        <b>
+                                            <a href="{% url 'Service:center_service_edit' service.id %}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                        </b>
+                                    </td>
+                                {% endif %}
                           </tr>
-                      {% endfor %}
+                    {% endfor %}
                   </table>
 
 

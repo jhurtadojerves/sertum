@@ -34,8 +34,6 @@ from .forms import UsuarioForm, ProfilePermission
 from django.views.generic import CreateView, ListView, UpdateView, FormView, RedirectView
 
 
-
-
 class RegisterUserCreateView(CreateView):
     model = User
     template_name = "registro.html"
@@ -69,7 +67,7 @@ class ValidationUserListView(ListView):
         return super(ValidationUserListView, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-        queryset = self.model.objects.filter(has_add_center = False)
+        queryset = self.model.objects.filter(has_add_center=False)
         return queryset
 
 

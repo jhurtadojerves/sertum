@@ -7,7 +7,7 @@ from usuario.models import User as Usuario
 from .form import CenterCreateForm, CenterUpdateForm, PictureCreateForm, PictureAddForm, KnowledgePollForm, KnowledgeCreate
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 
 from django.utils.decorators import method_decorator
 
@@ -34,8 +34,11 @@ class CenterCreateView(CreateView):
     context_object_name = 'center'
 
     @method_decorator(permission_required('usuario.add_center'))
-    def dispatch(self, *args, **kwargs):
-        return super(CenterCreateView, self).dispatch(*args, **kwargs)
+    def dispatch(self, request, *args, **kwargs):
+        if Center.objects.filter(user=request.user.profile).exists():
+            return HttpResponseRedirect(reverse_lazy('Center:center_edit'))
+        else:
+            return super(CenterCreateView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user.profile
@@ -43,16 +46,22 @@ class CenterCreateView(CreateView):
         return super(CenterCreateView, self).form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 class CenterUpdateView(UpdateView):
     model = Center
     template_name = 'center_edit.html'
-
     form_class = CenterUpdateForm
     context_object_name = 'center'
 
     def get_object(self, queryset=None):
         queryset = Center.objects.get(user=self.request.user.profile)
         return queryset
+
+    def dispatch(self, request, *args, **kwargs):
+        if not Center.objects.filter(user=request.user.profile).exists():
+            return HttpResponseRedirect(reverse_lazy('Center:center_create'))
+        else:
+            return super(CenterUpdateView, self).dispatch(request, *args, **kwargs)
 
 
 class CenterListView(ListView):
@@ -80,6 +89,7 @@ class PictureAdd(PermissionRequiredMixin, FormView):
                 return HttpResponseRedirect(reverse_lazy('Center:center_detail', kwargs={'slug': center.slug}))
 
 
+@method_decorator(login_required, name='dispatch')
 class PollForm(FormView):
     template_name = "poll_form_2.html"
     form_class = KnowledgePollForm
@@ -142,6 +152,7 @@ class PollForm(FormView):
         return HttpResponseRedirect(reverse('Center:encuesta_resultado', args=[poll.id]))
 
 
+@method_decorator(login_required, name='dispatch')
 class PollResult(DetailView):
     model = Poll
     template_name = "poll_result.html"

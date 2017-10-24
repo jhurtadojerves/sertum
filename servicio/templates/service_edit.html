@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ center_view.name }} - Crear Servicio
+    {{ service }} - Crear Servicio
 {% endblock title %}
 
 {% block content %}
@@ -16,7 +16,7 @@
     <b style="color:red;">{{ form.non_field_errors }}</b>
 
 
-    <legend>Crear servicios</legend>
+    <legend>Editar Servicio - {{ service }}</legend>
 
         {% for field in form %}
                 <div class="mui-textfield mui-textfield--float-label">
@@ -26,9 +26,13 @@
         {% endfor %}
 
 
-        <button type="submit" class="mui-btn mui-btn--raised">Crear</button>
+        <button type="submit" class="mui-btn mui-btn--raised">Guardar</button>
     </form>
+
+    {% else %}
+        <meta http-equiv="REFRESH" content="0;url={% url "Center:center_detail" service.center.slug %}">
     {% endif %}
+
 </div>
 
 {% endblock %}
