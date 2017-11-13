@@ -12,6 +12,9 @@ class CenterCreateForm(ModelForm):
     class Meta:
         model = Center
         fields = ['name', 'addres', 'aditional_information', ]
+        widgets = {
+            'name': forms.TextInput()
+        }
 
 
 class CenterUpdateForm(ModelForm):
@@ -19,6 +22,9 @@ class CenterUpdateForm(ModelForm):
         model = Center
         fields = ['name', 'addres', 'aditional_information', ]
 
+        widgets = {
+            'name': forms.TextInput()
+        }
 
 class PictureCreateForm(ModelForm):
     class Meta:
@@ -42,10 +48,6 @@ class KnowledgePollForm(forms.Form):
                                   required=True, label='Comida preferida')
     money_per_people = forms.DecimalField(max_digits=8, decimal_places=2, min_value=0, required=True,
                                           label='Dinero máximo por persona')
-    #extreme_sport = forms.BooleanField(required=None, label='¿Desea practicar deportes extremos?')
-    #sport_fishing = forms.BooleanField(required=None, label='¿Desea realizar pesca deportiva?')
-    #night_bar = forms.BooleanField(required=None, label='¿Desea visitar un bar o discoteca?')
-    #has_lodging = forms.BooleanField(required=None, label='¿Necesita hospedaje en el destino turístico?')
 
 
 class KnowledgeCreate(ModelForm):
