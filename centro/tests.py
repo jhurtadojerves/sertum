@@ -7,25 +7,46 @@ from pprint import pprint
 
 
 # Import models
-from .models import Center
+from .models import Center, ActivityForKnowledge, GroupTypeForKnowledge, FoodForKnowledge, TransportForKnowledge, Knowledge
 from django.contrib.auth.models import User, Permission
 from usuario.models import User as Profile
 
 # Import views
-from .views import CenterUpdateView, CenterCreateView, CenterListView, CenterDetailView
+from .views import CenterUpdateView, CenterCreateView, CenterListView, CenterDetailView, CreateKnowledge
+
+
+def create_user():
+    return User.objects.create_user(
+        username='juliohurtado',
+        first_name="Julio",
+        last_name='Hurtado',
+        email='juliohurtado@email.com',
+        is_active=True,
+        password='examplePass'
+    )
+
+
+def create_profile(user):
+    return Profile.objects.create(
+        user=user,
+        has_add_center=True,
+        reason_to_validate='Loremp insup'
+    )
+
+
+def create_center(profile):
+    return Center.objects.create(
+        name='Center Name',
+        addres='-2.251579, -78.132993',
+        aditional_information='Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
+        user=profile,
+    )
 
 
 class HomeTestCase(TestCase):
     def setUp(self):
         self.url = reverse('Center:home')
-        user = User.objects.create_user(
-            username='juliohurtado',
-            first_name="Julio",
-            last_name='Hurtado',
-            email='juliohurtado@email.com',
-            is_active=True,
-            password='examplePass'
-        )
+        user = create_user()
         self.client = Client()
 
     def test_unlogged_user_can_view_home_page(self):
@@ -47,25 +68,9 @@ class HomeFreeTestCase(HomeTestCase):
 
 class CenterDetailTestCase(TestCase):
     def setUp(self):
-        user = User.objects.create_user(
-            username='juliohurtado',
-            first_name="Julio",
-            last_name='Hurtado',
-            email='juliohurtado@email.com',
-            is_active=True,
-            password='examplePass'
-        )
-        profile = Profile.objects.create(
-            user=user,
-            has_add_center=True,
-            reason_to_validate='Loremp insup'
-        )
-        center = Center.objects.create(
-            name='Center Name',
-            addres='-2.251579, -78.132993',
-            aditional_information='Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
-            user=profile,
-        )
+        user = create_user()
+        profile = create_profile(user)
+        center = create_center(profile)
         self.url = reverse('Center:center_detail', kwargs={'slug': center.slug})
         self.client = Client()
 
@@ -87,19 +92,8 @@ class CenterDetailTestCase(TestCase):
 
 class CenterCreateTestCase(TestCase):
     def setUp(self):
-        user = User.objects.create_user(
-            username='juliohurtado',
-            first_name="Julio",
-            last_name='Hurtado',
-            email='juliohurtado@email.com',
-            is_active=True,
-            password='examplePass'
-        )
-        self.profile = Profile.objects.create(
-            user=user,
-            has_add_center=True,
-            reason_to_validate='Loremp insup'
-        )
+        user = create_user()
+        self.profile = create_profile(user)
         self.permissions = Permission.objects.get(name='Puede Crear Centros Turísticos')
         self.client = Client()
         self.url = reverse('Center:center_create')
@@ -123,27 +117,11 @@ class CenterCreateTestCase(TestCase):
 
 class CenterUpdateTestCase(TestCase):
     def setUp(self):
-        user = User.objects.create_user(
-            username='juliohurtado',
-            first_name="Julio",
-            last_name='Hurtado',
-            email='juliohurtado@email.com',
-            is_active=True,
-            password='examplePass'
-        )
-        self.profile = Profile.objects.create(
-            user=user,
-            has_add_center=True,
-            reason_to_validate='Loremp insup'
-        )
+        user = create_user()
+        self.profile = create_profile(user)
         self.permissions = Permission.objects.get(name='Puede Crear Centros Turísticos')
         self.client = Client()
-        self.center = Center.objects.create(
-            name='Center Name',
-            addres='-2.251579, -78.132993',
-            aditional_information='Lorem ipsum dolor sit amet, consectetuer adipiscing elit.',
-            user=self.profile,
-        )
+        self.center = create_center(self.profile)
         self.url = reverse('Center:center_edit')
 
     def test_user_with_created_can_edit_center_get(self):
@@ -189,3 +167,30 @@ class CenterUpdateTestCase(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(response.wsgi_request._post['name'], new_name)
 
+
+class KnowledgeCreateTestCase(TestCase):
+    def setUp(self):
+        user = create_user()
+        self.profile = create_profile(user)
+        self.center = create_center(self.profile)
+        permissions = Permission.objects.get(name='Puede Crear Centros Turísticos')
+        user.user_permissions.add(permissions)
+        self.url = reverse('Center:knowledge_create')
+
+    def test_create_knowledge_with_created_center(self):
+        self.client.login(username='juliohurtado', password='examplePass')
+        response = self.client.get(self.url)
+        view = resolve(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, self.center.name)
+
+    def test_create_knowledge_without_created_center(self):
+        response = self.client.get(self.url)
+        view = resolve(self.url)
+        self.assertEquals(response.status_code, 302)
+
+
+class KnowledgeUpdateTestCase(KnowledgeCreateTestCase):
+    def setUp(self):
+        self.url = reverse('Center:knowledge_update')
+        super(KnowledgeUpdateTestCase, self).setUp()

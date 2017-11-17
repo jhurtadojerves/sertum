@@ -159,8 +159,7 @@ class PollResult(DetailView):
     context_object_name = 'poll'
 
 
-class CreateKnowledge(PermissionRequiredMixin, CreateView):
-    permission_required = "usuario.add_center"
+class CreateKnowledge(CreateView):
     model = Knowledge
     template_name = "knowledge_create.html"
     form_class = KnowledgeCreate
@@ -175,6 +174,7 @@ class CreateKnowledge(PermissionRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('Center:center_detail', args=[self.request.user.profile.center.slug])
 
+    @method_decorator(permission_required('usuario.add_center'))
     def dispatch(self, request, *args, **kwargs):
         if Knowledge.objects.filter(center=request.user.profile.center).exists():
             return HttpResponseRedirect(reverse_lazy('Center:knowledge_update'))
@@ -182,8 +182,7 @@ class CreateKnowledge(PermissionRequiredMixin, CreateView):
             return super(CreateKnowledge, self).dispatch(request, *args, **kwargs)
 
 
-class UpdateKnowledge(PermissionRequiredMixin, UpdateView):
-    permission_required = "usuario.add_center"
+class UpdateKnowledge(UpdateView):
     model = Knowledge
     template_name = "knowledge_update.html"
     form_class = KnowledgeCreate
@@ -192,6 +191,7 @@ class UpdateKnowledge(PermissionRequiredMixin, UpdateView):
         queryset = Knowledge.objects.get(center=self.request.user.profile.center)
         return queryset
 
+    @method_decorator(permission_required('usuario.add_center'))
     def dispatch(self, request, *args, **kwargs):
         if not Knowledge.objects.filter(center=request.user.profile.center).exists():
             return HttpResponseRedirect(reverse_lazy('Center:knowledge_create'))
