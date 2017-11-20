@@ -74,7 +74,7 @@ a:focus {
   transform: translate3d(-250px, 0, 0);
 }
 .navbar-fixed-top {
-  padding: 15px 0;
+  /*padding: 15px 0;*/
 }
 .affix {
   -webkit-animation-duration: 1s;
@@ -224,7 +224,7 @@ a:focus {
   padding: 90px 0;
 }
 .hero-area .sticky-navigation {
-  background: transparent;
+  /*background: transparent;*/
 }
 .hero-area .contents h1 {
   font-size: 30px;

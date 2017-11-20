@@ -194,3 +194,28 @@ class KnowledgeUpdateTestCase(KnowledgeCreateTestCase):
     def setUp(self):
         self.url = reverse('Center:knowledge_update')
         super(KnowledgeUpdateTestCase, self).setUp()
+
+
+class TestTestCase(TestCase):
+    def setUp(self):
+        user = create_user()
+        self.profile = create_profile(user)
+        self.center = create_center(self.profile)
+        self.url = reverse('Center:encuesta')
+
+    def user_can_view_test_get(self):
+        self.client.login(username='juliohurtado', password='examplePass')
+        response = self.client.get(self.url)
+        view = resolve(self.url)
+        self.assertEquals(response.status_code, 200)
+        self.assertContains(response, "Conformación del grupo de Turistas")
+        self.assertContains(response, "Actividades que desea desarrollar")
+        self.assertContains(response, "Método de transporte preferido")
+        self.assertContains(response, "Comida preferida")
+        self.assertContains(response, "Dinero máximo por persona")
+
+    def unlogued_user_cant_view_test(self):
+        response = self.client.get(self.url)
+        self.assertEquals(response.status_code, 302)
+
+

@@ -26,6 +26,7 @@ class CenterUpdateForm(ModelForm):
             'name': forms.TextInput()
         }
 
+
 class PictureCreateForm(ModelForm):
     class Meta:
         model = Picture

@@ -8,7 +8,17 @@
     <meta name="keywords" content="Bootstrap, Landing page, Template, Registration, Landing">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" content="Grayrids">
-		<title>{% block title %}
+
+    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+        {% if ancla is not True %}
+            <script>$(function() {
+            $('html,body').animate({
+            scrollTop: $("#contenido").offset().top
+            }, 0);
+        })</script>
+        {% endif %}
+
+      <title>{% block title %}
 		
 		{% endblock %}</title>
 
@@ -34,10 +44,10 @@
 
     <div class="navbar navbar-invers menu-wrap">
       <div class="navbar-header text-center">
-        <a class="navbar-brand logo-right" href="javascript:void(0)"><i class="mdi-image-timelapse"></i>SERTUM</a>
+        <a class="navbar-brand logo-right" href="{% url 'Center:home' %}"><i class="mdi-image-timelapse"></i>SERTUM</a>
       </div>
         <ul class="nav navbar-nav main-navigation">
-            <li class="active"><a href="{% url 'Center:home' %}">Inicio</a></li>
+            <li><a href="{% url 'Center:home' %}">Inicio</a></li>
             {% if not perms.usuario.add_center %}
             <li><a href="{% url 'Center:home_free' %}">Destinos Gratuitos</a></li>
             <li><a href="{% url 'Service:service_list' %}">Servicios</a></li>
@@ -91,7 +101,7 @@
       <div class="container">
           <div class="col-md-12">
 
-            <div class="navbar navbar-inverse sticky-navigation navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="200">
+            <div class="navbar navbar-inverse sticky-navigation navbar-fixed-top" role="navigation" data-offset-top="200">
               <div class="container">
                 <div class="navbar-header">
                   <a class="logo-left " href="{% url 'Center:home' %}"><i class="mdi-image-timelapse"></i>SERTUM</a>
@@ -103,7 +113,8 @@
                 </div>
               </div>
             </div>
-        </div>        
+        </div>
+
         <div class="contents text-right">
           <h1 class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="300ms"><b>Recomendación Turísticas del Cantón Morona</b></h1>
           <p class="wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms"><b>Sistema Experto para Recomendación de Destinos Turísticos</b></p>
@@ -112,11 +123,14 @@
       </div>
     </header>
 
+    <a name="contenido" id="contenido"></a>
     <section id="features" class="section">
-      <div class="container">
+
+        <div class="container">
+
         <div class="section-header">
-          <h1 class="section-title wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms">{% block content_title %}
-          
+            <h1 class="section-title wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="100ms" id="mover">{% block content_title %}
+
           {% endblock %}</h1>
           <h2 class="section-subtitle wow fadeInRight" data-wow-duration="1000ms" data-wow-delay="400ms">{% block content_description %}
           
@@ -253,7 +267,7 @@
     </div>  
 		
 
-    <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
+
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/ripples.min.js' %}"></script>
     <script src="{% static 'js/material.min.js' %}"></script>
@@ -284,5 +298,4 @@
 
     <script src="{% static 'js/blueimp-gallery.min.js' %}"></script>
   </body>
-
 </html>

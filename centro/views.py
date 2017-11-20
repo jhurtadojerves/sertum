@@ -69,6 +69,10 @@ class CenterListView(ListView):
     template_name = 'center_list.html'
     context_object_name = 'centers'
 
+    def get_context_data(self, **kwargs):
+        context = super(CenterListView, self).get_context_data(**kwargs)
+        context['ancla'] = True
+        return context
 
 class PictureAdd(PermissionRequiredMixin, FormView):
     permission_required = "usuario.add_center"
