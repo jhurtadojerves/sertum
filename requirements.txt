@@ -1,7 +1,11 @@
+dj-database-url==0.4.2
 Django==1.10.3
 django-autoslug==1.9.3
 django-google-maps==0.6.0
 django-multiselectfield==0.1.7
+gunicorn==19.7.1
 olefile==0.44
 Pillow==4.0.0
 psycopg2==2.6.2
+pytz==2017.2
+whitenoise==3.3.0
