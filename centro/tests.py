@@ -1,10 +1,7 @@
 from django.test import TestCase
 from django.test.client import Client
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.urls import resolve
-
-from pprint import pprint
-
 
 # Import models
 from .models import Center, ActivityForKnowledge, GroupTypeForKnowledge, FoodForKnowledge, TransportForKnowledge, Knowledge
@@ -62,7 +59,7 @@ class HomeTestCase(TestCase):
 
 class HomeFreeTestCase(HomeTestCase):
     def setUp(self):
-        super(HomeFreeTestCase, self).setUp()
+        super(HomeTestCase, self).setUp()
         self.url = reverse('Center:home_free')
 
 
@@ -196,17 +193,16 @@ class KnowledgeUpdateTestCase(KnowledgeCreateTestCase):
         super(KnowledgeUpdateTestCase, self).setUp()
 
 
-class TestTestCase(TestCase):
+class PollTestCase(TestCase):
     def setUp(self):
         user = create_user()
         self.profile = create_profile(user)
         self.center = create_center(self.profile)
         self.url = reverse('Center:encuesta')
 
-    def user_can_view_test_get(self):
+    def test_user_can_view_test_get(self):
         self.client.login(username='juliohurtado', password='examplePass')
         response = self.client.get(self.url)
-        view = resolve(self.url)
         self.assertEquals(response.status_code, 200)
         self.assertContains(response, "Conformación del grupo de Turistas")
         self.assertContains(response, "Actividades que desea desarrollar")
@@ -214,8 +210,37 @@ class TestTestCase(TestCase):
         self.assertContains(response, "Comida preferida")
         self.assertContains(response, "Dinero máximo por persona")
 
-    def unlogued_user_cant_view_test(self):
+    def test_user_can_view_test_post(self):
+        self.client.login(username='juliohurtado', password='examplePass')
+        response = self.client.get(self.url)
+        view = resolve(self.url)
+        self.client.login(username='juliohurtado', password='examplePass')
+
+        self.activity = ActivityForKnowledge.objects.create(name='Actividad 1')
+        self.group = GroupTypeForKnowledge.objects.create(name='Group 1')
+        self.food = FoodForKnowledge.objects.create(name='Food 1')
+        self.transport = TransportForKnowledge.objects.create(name='Transport 1')
+
+        self.knowledge = Knowledge.objects.create(center=self.center, money_per_person=10)
+        self.knowledge.activities.add(self.activity)
+        self.knowledge.group_type.add(self.group)
+        self.knowledge.food.add(self.food)
+        self.knowledge.transport.add(self.transport)
+
+        data = {
+            'group_type': self.group.id,
+            'activity': self.activity.id,
+            'transport': self.transport.id,
+            'food': self.food.id,
+            'money_per_people': self.knowledge.money_per_person,
+        }
+        response = self.client.post(self.url, data=data)
+        self.assertEquals(response.status_code, 302)
+        self.assertEquals(response._headers['location'][1], '/encuesta/1/')
+        response2 = self.client.get(response._headers['location'][1])
+        self.assertEquals(response2.status_code, 200)
+        self.assertContains(response2, "El sistema le recomienda visitar el destino turístico Center Name")
+
+    def test_not_authenticated_user_cant_view_test(self):
         response = self.client.get(self.url)
         self.assertEquals(response.status_code, 302)
-
-

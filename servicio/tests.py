@@ -22,9 +22,6 @@ class ServiceListTestCase(TestCase):
         self.services = (
             Service.objects.create(name='Servicio 1'),
             Service.objects.create(name='Servicio 2'),
-            Service.objects.create(name='Servicio 3'),
-            Service.objects.create(name='Servicio 4'),
-            Service.objects.create(name='Servicio 5'),
         )
 
     def test_anonymous_user_can_see_services_list(self):
@@ -81,10 +78,7 @@ class CreateServiceTestCase(TestCase):
     def test_user_with_permission_can_create_user_post(self):
         self.client.login(username='juliohurtado', password='examplePass')
         self.profile.user.user_permissions.add(self.permissions)
-        data = {
-            'service': self.service.id,
-            'cost': 10,
-            'observation': 'Generic Observation'
-        }
+        data = {'service': self.service.id, 'cost': 10, 'observation': 'Generic Observation'}
         response = self.client.post(self.url, data=data)
-        self.assertContains(response)
+        new_response = self.client.get(response._headers['location'][1])  # Test redirect
+        self.assertContains(new_response, self.center.name)  # Test correct redirect
