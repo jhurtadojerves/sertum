@@ -8,7 +8,7 @@
 
 <div class="mui-container-fluid">
 
-
+        <h1>Resultados</h1>
 
         <P>El sistema le recomienda visitar el destino turístico {{ poll.center.name }} debido a que cumple con {{ poll.value }} de los parámetros que seleccionó en su encuesta. </P>
     <p>Mostramos a continuación una galería de imágenes del destino y un enlace para obtener más información. <a href="/destino/ver/{{ poll.center.slug }}">Ver Más</a></p>
@@ -16,7 +16,7 @@
 
 
     <div id="links">
-    {% for picture in pictures %}
+    {% for picture in poll.center.pictures.all %}
 
 
             <a href="{% url 'ver_imagen' picture.picture %}">
