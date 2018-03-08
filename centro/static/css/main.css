@@ -222,6 +222,7 @@ a:focus {
   color: #fff;
   overflow: hidden;
   padding: 90px 0;
+  filter: brightness(75%);
 }
 .hero-area .sticky-navigation {
   /*background: transparent;*/
